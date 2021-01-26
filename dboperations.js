@@ -343,18 +343,97 @@ async function getOrders(refer){
     }
 }
 
-// async function seeOrders() {
-// 	orders = await getOrders('2170')
-// 	console.log(orders)
-// }
+async function getProductPrice(){
+    try{
+        let pool = await sql.connect(config);
+        let products = await pool.request().query(`SELECT  CADPROREFER as REFER, MAX(P) AS P,  MAX(M) AS M, MAX(G) AS G, MAX(GG) AS GG 
+		FROM
+		(
 
-// seeOrders()
-
+		SELECT  isNull(CADPRO.DESCR
+		, '                                        ')  CADPRODESCR
+		, isNull(CADPRO.UNID
+		, '      ')  CADPROUNID
+		, isNull(CADPRO.REFER
+		, '        ')  CADPROREFER
+		, isNull(CADPRO.PTAB2
+		, 000000000000000.000000)  CADPROPTAB2
+		,MOVITE.VR MOVITEVR
+		, isNull(CADPROV.DESCR
+		, '                    ')  CADPROVDESCR
+		, isNull(STR(cadprotordem.ordem)
+		, MOVITE.TP)  MOVITETPORDEM
+		,MOVITE.TP MOVITETP
+		, isNull(CADPRO.COLEC
+		, '   ')  CADPROCOLEC
+		, isNull(CTAPAGG.DESCR
+		, '                    ')  CTAPAGGDESCR
+		,SUM(((MOVITE.QTDCOM_E-MOVITE.QTDCOM_D)+(MOVITE.QTDACE_E-MOVITE.QTDACE_D)-((MOVITE.QTDVEN_S-MOVITE.QTDVEN_D)+MOVITE.QTDSIG_A)) ) MOVITEV_SALDO
+		,SUM(((MOVITE.QTDSIG_S-MOVITE.QTDSIG_D)-MOVITE.QTDSIG_A) ) MOVITEV_SALDOCSG
+		,SUM(((MOVITE.QTDCOM_E-MOVITE.QTDCOM_D)+(MOVITE.QTDACE_E-MOVITE.QTDACE_D)-(MOVITE.QTDVEN_S-MOVITE.QTDVEN_D)-(MOVITE.QTDSIG_S-MOVITE.QTDSIG_D)) ) MOVITEV_ESTOQUE  from	movite 
+		left join cadpro on cadpro.refer=movite.refer 
+		and cadpro.vr=movite.vr 
+		and cadpro.tp=movite.tp  
+		left join cadprov on	cadprov.vr = movite.vr 
+		left join ctapagg on	ctapagg.ctapagg = cadpro.colec  
+		left join cadproTOrdem on		cadproTOrdem.tpOrdem = movite.tp  
+		where  movite.empre='002002' 
+		and dtemi< '2021-01-27'  
+		and (cadpro.espec = 'P' or cadpro.espec = ' ')  
+		and cadpro.inati  = 0   
+		group by isNull(CADPRO.DESCR
+		, '                                        ') 
+		, isNull(CADPRO.UNID
+		, '      ') 
+		, isNull(CADPRO.REFER
+		, '        ') 
+		, isNull(CADPRO.PTAB2
+		, 000000000000000.000000) 
+		,MOVITE.VR
+		, isNull(CADPROV.DESCR
+		, '                    ') 
+		, isNull(STR(cadprotordem.ordem)
+		, MOVITE.TP) 
+		,MOVITE.TP
+		, isNull(CADPRO.COLEC
+		, '   ') 
+		, isNull(CTAPAGG.DESCR
+		, '                    ')  
+		, isNull(CADPRO.UNID
+		, '      ') 
+		, isNull(CADPRO.REFER
+		, '        ') 
+		, isNull(CADPRO.PTAB2
+		, 000000000000000.000000) 
+		,MOVITE.VR
+		, isNull(CADPROV.DESCR
+		, '                    ') 
+		, isNull(STR(cadprotordem.ordem)
+		, MOVITE.TP) 
+		,MOVITE.TP
+		, isNull(CADPRO.COLEC
+		, '   ') 
+		, isNull(CTAPAGG.DESCR
+		, '                    ')
+		)d  
+		pivot
+		(
+		max(cadproptab2)
+		FOR MOVITETP IN (P, M, G, GG)
+		)piv
+WHERE MOVITEV_ESTOQUE > 0 
+GROUP BY CADPROREFER`);
+        return products.recordset
+    }catch (error){
+        console.log(error)
+    }
+}
 
 
 module.exports = {
     getAll: getAll,
     getRefer: getRefer,
 	getCollections: getCollections,
-	getOrders: getOrders
+	getOrders: getOrders,
+	getProductPrice: getProductPrice
 }

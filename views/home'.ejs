@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <section class="container" id="products-list">
+      <% for (product of products) { %>
+        <% let productPrice = prices.filter((product1) => {
+            return product1.REFER.trim() == product.REFER.trim()
+        })
+       %>
+
+        <div class="large-card" id="large-card">
+            <div class="card-image">
+                <img src="" alt="Nao há Foto">
+            </div>
+            <div class="card-text">
+                <p><b><%= product.REFER.trim() %></b></p>
+                <p><%= product.DESCRI.trim() %></p>
+                <% if (productPrice[0].P) { %>
+                    <b><p> P M G:  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG: R$<%= productPrice[0].GG  %> <% } %></p></b>
+                <% } else if (productPrice[0].M) { %>
+                    <b><p>P M G: <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
+                <% } else if (productPrice[0].G) { %>
+                    <b><p>P M G: <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
+                <% } %>          
+                <div class="cardButton-area">
+                    <button>Ver disponíveis</button>
+                </div>        
+              </div>
+
+            
+        </div>
+      <% } %> 
+
+
+    </section>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

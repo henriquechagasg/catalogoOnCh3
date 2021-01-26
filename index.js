@@ -16,7 +16,8 @@ app.get('/', async (req, res) => {
     const regex = /\//g;
     collections = await dbOperations.getCollections()
     products = await dbOperations.getAll()
-    res.render('home', { products, regex, collections })
+    let prices = await dbOperations.getProductPrice()
+    res.render('home\'', { products, regex, collections, prices })
 })
 
 app.get('/?r=:refer', async(req, res) => {
@@ -28,6 +29,6 @@ app.get('/?r=:refer', async(req, res) => {
 })
 
 
-app.listen(3000, () => {
-    console.log("Server On Port 3000.")
+app.listen(8080, () => {
+    console.log("Server On Port 8080.")
 })
