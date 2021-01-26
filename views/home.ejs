@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="nav-searchbar" id="search-box">
+        <div class='inside-navsearch'>
+            <input type="text" placeholder="Referência" id="ref-input">
+            <select id="select-category">
+              <option value="all">Categoria</i></option>
+              <option value="1">Regatas</option>
+              <option value="2">Calças</option>
+              <option value="3">Blusas</option>
+              <option value="4">Saias</option>
+              <option value="5">Casacos</option>
+              <option value="6">Vestidos</option>
+              <option value="7">Shorts</option>
+              <option value="8">Conjuntos</option>
+              <option value="9">Macacões</option>
+            </select>
+            <select id="select-collection">
+                <option value="allCollections">Coleção</option>
+              <% for (collection of collections) { %>
+                <option value="<%= collection.CADPROCOLEC  %> ">Coleção: <%= collection.CADPROCOLEC %> </option>
+              <% } %>  
+            </select>
+        </div>
+    </nav>
+
+    <section class="container" id="products-list">
+      <% for (product of products) { %> 
+        <div class="large-card" id="large-card">
+            <section class="details-side">
+                <h1><%= product.REFER %></h1>
+                <h2><%= product.DESCRI %></h2>
+                <h2>Coleção: <p><%= product.CADPROCOLEC %></p> </h2>
+            </section>
+            <section class="refer-quantitys">
+            <% if (product.P) { %> 
+            <div class="size-card">
+                <p><%= product.P %> </p>
+                <b>P</b>
+            </div>
+            <% } %>
+            <% if (product.M) { %> 
+            <div class="size-card">
+                <p><%= product.M %> </p>
+                <b>M</b>
+            </div>
+            <% } %>
+            <% if (product.G) { %> 
+            <div class="size-card">
+                <p><%= product.G %> </p>
+                <b>G</b>
+            </div>
+            <% } %>
+            <% if (product.GG) { %> 
+            <div class="size-card">
+                <p><%= product.GG %> </p>
+                <b>GG</b>
+            </div>
+            <% } %>     
+                      
+            </section>
+        </div>
+      <% } %> 
+
+
+    </section>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

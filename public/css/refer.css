@@ -1,0 +1,241 @@
+
+.navbar{
+    width: 300px;
+    height: 65px;
+    background-color: #fffcfc;
+    display: flex;
+    justify-content: flex-start ;
+    align-items: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    color: #292828;
+    margin-bottom: 30px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 101;
+}
+
+.navbar i{
+    font-size: larger;
+    transition: font-size 0.2s;
+    padding: 12px 30px 12px 30px;
+    border-right: 2px solid black;
+    
+}
+
+.navbar h1{
+    font-weight: 400;
+    padding-left: 30px;
+}
+
+.navbar i:hover{
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.order-alert-area{
+    max-width: 80% ;
+    margin: 0 0 0 10%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 90px;
+
+}
+
+.alert{
+    width: 100%;
+    height: 60px;
+    background-color: #fff3cd;
+    color: #664d03;
+    border-radius: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alert button{
+    cursor: pointer;
+    width: auto;
+    height: 80%;
+    background-color: #664d03;
+    color: #fff3cd;
+    border: none;
+    border-radius: 20px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    font-size: 1.1em;
+    padding: 0 10px;
+}
+
+@media screen and (max-width: 800px) {
+    .order-alert-area{
+        margin-left: 2.5%;
+        max-width: 95%;
+    }
+
+    .alert{
+        font-size: 0.8em;
+    }
+}
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    position: relative;
+    z-index: 99;
+    padding-top: 90px;
+}
+
+.card{
+    position: relative;
+    width: 243px;
+    height: 520px;
+    background: rgb(249,249,249);
+    background: radial-gradient(circle, rgba(249,249,249,1) 0%, rgba(237,237,237,1) 100%);
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 30px 30px 30px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: transform 0.2s;
+}
+
+@media screen and (max-width: 800px) {
+    .card{
+        width: 300px;
+        height: 642px;
+    }    
+    .card-image{
+        height: 90%;
+    }
+    .card-text{
+        height: 10%;
+    }
+}
+
+
+
+.card:hover{
+    transform: translateY(-0.30em);
+}
+
+.card-image{
+    width: 100%;
+    height: 70%;
+    position: relative;
+}
+img{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.card-text{
+    width: 100%;
+    height: 23%;
+
+}
+.card-text h2{
+    font-size: 1.3em;
+    padding-left: 10px; 
+    
+}
+.card-text h3{
+    font-size: 1.1em;
+    padding-left: 10px;
+    margin: 0;
+}
+.card-text p{
+    font-size: 1.3em;
+    padding-left: 10px; 
+}
+
+.quantity-cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.size-cards {
+   width: 55px;
+   height: 55px;
+   background-color: white;
+   border-radius: 15px;
+   margin: 15px 5px;
+   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   font-size: 1.1em;
+}
+.size-cards p{
+    padding-left: 0;
+    margin: 0 80%;
+    border-bottom: 2px solid black;
+}
+
+
+/* Pop Up */
+
+.modal-container{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container.show{
+    display: flex;
+}
+
+.modal{
+    background-color: white;
+    width: 60%;
+    min-width: 300px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    position: relative;
+
+}
+
+.closeOrders-button{
+    background-color: white;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 13px;
+    cursor: pointer;
+    font-size: 1.4em;
+}
+
+.order-line{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid black;
+    padding: 10px 0;
+}
+
+.ordered-quantitys{
+    display: flex;
+}
+.ordered-quantitys p{
+    margin: 0 10px
+}
+
+
+
+
