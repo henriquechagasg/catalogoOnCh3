@@ -21,7 +21,7 @@
         <div class="large-card" id="large-card">
             <div class="card-image">
             <%  if (product.image.length > 0 ) { %>
-                <img src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
+                <img class="photo" data-src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
             <% } else { %>
                 <div>None</div>
             <% } %>    
@@ -48,6 +48,9 @@
 
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>
+    
     <script src="/js/main.js"></script>
+
 </body>
 </html>

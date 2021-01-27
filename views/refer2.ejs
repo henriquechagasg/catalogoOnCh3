@@ -10,7 +10,6 @@
 </head>
 <body>
 
-  
     <!-- NAvbar -->
     <div class="navbar">
       <div>
@@ -51,7 +50,9 @@
           
         <div class="card" id="product-card">
           <div class="card-image">
-            <% if (filenames.includes(`${product.REFER.trim()}&${product.DESCR.trim()}.jpg`)) { %>
+            <% let imgName = `${product.REFER.trim()}&${product.DESCR.trim()}`
+              console.log(imgName + '.jpg')
+              if (filenames.includes(imgName + '.jpg') || filenames.includes(imgName + '.jpeg')) { %>
               <img src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
             <% } else { %>
               <div>None</div>
@@ -60,14 +61,15 @@
             <div class="card-text">
               <p><b>Referencia: <%= product.REFER.trim() %></b></p>
               <p><%= product.DESCRI.trim()  %> </p>
-              <p>Cor: <%= product.DESCR.trim() %> </p>
+              <p><b>Cor: <%= product.DESCR.trim() %></b></p>
               <% if (productPrice[0].P) { %>
-                <b><p> P M G:  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG: R$<%= productPrice[0].GG  %> <% } %></p></b>
-              <% } else if (productPrice[0].M) { %>
-                  <b><p>P M G: <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
-              <% } else if (productPrice[0].G) { %>
-                  <b><p>P M G: <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
-              <% } %>  
+                <b><p>PREÇO: P M G -  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG - R$<%= productPrice[0].GG  %> <% } %></p></b>
+                <% } else if (productPrice[0].M) { %>
+                    <b><p>PREÇO: P M G - <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
+                <% } else if (productPrice[0].G) { %>
+                    <b><p>PREÇO: P M G - <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
+                <% } %>
+              <p>Tamanhos disponíveis:</p>  
               <section class="quantity-cards">
               <% if (varOrder.length > 0) { %>
                 <% if ((product.P - varOrder[0].P) > 0) { %> 
@@ -140,7 +142,9 @@
               product.REFER = product.REFER.replace(regex, '-') %>  
             <div class="card" id="product-card">
               <div class="card-image">
-                <% if (filenames.includes(`${product.REFER.trim()}&${product.DESCR.trim()}.jpg`)) { %>
+                <% 
+                let imgName = `${product.REFER.trim()}&${product.DESCR.trim()}`
+                if (filenames.includes(imgName + '.jpg') || filenames.includes(imgName + '.jpeg')) { %>
                   <img src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
                 <% } else { %>
                   <div>None</div>
@@ -148,15 +152,16 @@
               </div>
                 <div class="card-text">
                   <p><b>Referência: <%= product.REFER.trim() %></b></p>
-                  <p><%= product.DESCRI.trim()  %> </p>
+                  <p><%= product.DESCRI.trim()  %></p>
                   <p><b>Cor: <%= product.DESCR.trim() %></b></p>
                   <% if (productPrice[0].P) { %>
-                    <b><p> P M G:  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG: R$<%= productPrice[0].GG  %> <% } %></p></b>
+                    <b><p>PREÇO: P M G -  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG - R$<%= productPrice[0].GG  %> <% } %></p></b>
                   <% } else if (productPrice[0].M) { %>
-                      <b><p>P M G: <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
+                      <b><p>PREÇO: P M G - <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
                   <% } else if (productPrice[0].G) { %>
-                      <b><p>P M G: <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
-                  <% } %>  
+                      <b><p>PREÇO: P M G - <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
+                  <% } %>
+                  <p>Tamanhos disponíveis:</p>  
                   <section class="quantity-cards">
                     <% if (product.P) { %> 
                     <div class="size-cards">
@@ -196,7 +201,7 @@
   <!-- Card para imagens: -->
     
  
-
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>   
     <script>
       const modal = document.querySelector("#orders-modal")
       function back () {
