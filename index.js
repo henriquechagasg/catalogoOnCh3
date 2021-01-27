@@ -3,6 +3,10 @@ const express = require('express');
 const path = require('path');
 const { Console } = require('console');
 const app = express();
+const fs = require('fs')
+const util = require('util')
+
+const readDir = util.promisify(fs.readdir);
 
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(__dirname + '/public'));
@@ -12,12 +16,15 @@ app.set('view engine', 'ejs')
 //     console.log(result);
 // })
 
+// Function to read files
+
 app.get('/', async (req, res) => {
+
     const regex = /\//g;
     collections = await dbOperations.getCollections()
     products = await dbOperations.getAll()
     let prices = await dbOperations.getProductPrice()
-    res.render('home\'', { products, regex, collections, prices })
+    res.render('home\'', { products, regex, collections, prices })    
 })
 
 app.get('/?r=:refer', async(req, res) => {
