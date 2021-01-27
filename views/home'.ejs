@@ -9,18 +9,22 @@
 </head>
 <body>
 
-    
 
     <section class="container" id="products-list">
+
       <% for (product of products) { %>
         <% let productPrice = prices.filter((product1) => {
             return product1.REFER.trim() == product.REFER.trim()
-        })
-       %>
+        }) %>
+
 
         <div class="large-card" id="large-card">
             <div class="card-image">
-                <img src="" alt="Nao há Foto">
+            <%  if (product.image.length > 0 ) { %>
+                <img src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
+            <% } else { %>
+                <div>None</div>
+            <% } %>    
             </div>
             <div class="card-text">
                 <p><b><%= product.REFER.trim() %></b></p>
@@ -33,7 +37,7 @@
                     <b><p>P M G: <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
                 <% } %>          
                 <div class="cardButton-area">
-                    <button>Ver disponíveis</button>
+                    <button id='details-btn'><b>Ver disponíveis</b></button>
                 </div>        
               </div>
 

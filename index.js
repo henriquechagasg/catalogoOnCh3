@@ -4,27 +4,31 @@ const path = require('path');
 const { Console } = require('console');
 const app = express();
 const fs = require('fs')
-const util = require('util')
 
-const readDir = util.promisify(fs.readdir);
+
 
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
 
-// dbOperations.getOrders().then(result => {
-//     console.log(result);
-// })
-
-// Function to read files
 
 app.get('/', async (req, res) => {
-
+    
+    let filenames = fs.readdirSync('public/imgs')
     const regex = /\//g;
     collections = await dbOperations.getCollections()
     products = await dbOperations.getAll()
     let prices = await dbOperations.getProductPrice()
-    res.render('home\'', { products, regex, collections, prices })    
+    for await (product of products) {
+        product['image'] = []
+        filenames.forEach(file => {
+            let index = file.indexOf('&')
+            if (product.REFER.trim() == file.slice(0, index)) {
+                product['image'].push(file)
+            }
+        })
+    }
+    res.render('home\'', { products, regex, collections, prices, filenames })    
 })
 
 app.get('/?r=:refer', async(req, res) => {
