@@ -111,10 +111,10 @@ async function getRefer(refer){
     refer = refer.replace(regeX, '\/')
     try{
         let pool = await sql.connect(config);
-        let products = await pool.request().query(`SELECT  CADPROREFER as REFER,CADPRODESCR as DESCRI,CADPROVDESCR as DESCR, CADPROCOLEC , SUM(P) P, SUM(M) M, SUM(G) G, SUM(GG) GG
+        let products = await pool.request().query(`SELECT  CADPROREFER as REFER,CADPRODESCR as DESCRI,CADPROVDESCR as DESCR, CADPROGDESCR as GRUPO, CADPROCOLEC , SUM(P) P, SUM(M) M, SUM(G) G, SUM(GG) GG
 		FROM
 		(
-			SELECT  CADPROREFER,CADPRODESCR, CADPROVDESCR, MOVITETP, MOVITEV_ESTOQUE, CADPROCOLEC
+			SELECT  CADPROREFER,CADPRODESCR, CADPROVDESCR,CADPROGDESCR ,  MOVITETP, MOVITEV_ESTOQUE, CADPROCOLEC
 					FROM
 					(
 					SELECT  isNull(CADFOR.FORNE
@@ -128,6 +128,10 @@ async function getRefer(refer){
 					,MOVITE.VR MOVITEVR
 					, isNull(CADPROV.DESCR
 					, '                    ')  CADPROVDESCR
+					, isNull(CADPRO.GRUPO
+					, '   ')  CADPROGRUPO
+					, isNull(CADPROG.DESCR
+					, '                    ')  CADPROGDESCR
 					, isNull(STR(cadprotordem.ordem)
 					, MOVITE.TP)  MOVITETPORDEM
 					,MOVITE.TP MOVITETP
@@ -144,14 +148,15 @@ async function getRefer(refer){
 					,SUM(((MOVITE.QTDCOM_E-MOVITE.QTDCOM_D)+(MOVITE.QTDACE_E-MOVITE.QTDACE_D)-(MOVITE.QTDVEN_S-MOVITE.QTDVEN_D)-(MOVITE.QTDSIG_S-MOVITE.QTDSIG_D)) ) MOVITEV_ESTOQUE  from	movite
 					left join cadpro on cadpro.refer=movite.refer 
 					and cadpro.vr=movite.vr 
-					and cadpro.tp=movite.tp  
+					and cadpro.tp=movite.tp
+					left join cadprog on	cadprog.produg = cadpro.grupo   
 					left join cadfor on	cadfor.forne = cadpro.forne  
 					left join cadprov on	cadprov.vr = movite.vr 
 					left join ctapagg on	ctapagg.ctapagg = cadpro.colec  
 					left join cadproTOrdem on		cadproTOrdem.tpOrdem = movite.tp  
-					where  movite.empre='002002'
+					where  movite.empre='002002' 
 					and dtemi< '2021-01-23'  
-					and (cadpro.espec = 'P' or cadpro.espec = ' ')
+					and (cadpro.espec = 'P' or cadpro.espec = ' ')  
 					and cadpro.inati  = 0   
 					group by isNull(CADFOR.FORNE
 					, '    ') 
@@ -183,7 +188,11 @@ async function getRefer(refer){
 					, '        ') 
 					,MOVITE.VR
 					, isNull(CADPROV.DESCR
-					, '                    ') 
+					, '                    ')
+					, isNull(CADPRO.GRUPO
+					, '   ')
+					, isNull(CADPROG.DESCR
+					, '                    ')   
 					, isNull(STR(cadprotordem.ordem)
 					, MOVITE.TP) 
 					,MOVITE.TP
@@ -204,9 +213,9 @@ async function getRefer(refer){
 			FOR MOVITETP IN (P, M, G, GG)
 			)piv
 		
-WHERE (CADPROREFER not like '%LD%' and CADPROREFER not like '%PIL%' AND CADPROREFER = \'${refer}\')
-GROUP BY PIV.CADPROREFER, PIV.CADPRODESCR,piv.CADPROVDESCR, piv.CADPROCOLEC
-ORDER BY CADPROCOLEC DESC`);
+WHERE (CADPROREFER not like '%LD%' and CADPROREFER not like '%PIL%' and CADPROREFER=\'${refer}\')
+GROUP BY PIV.CADPROREFER, PIV.CADPRODESCR, piv.CADPROVDESCR, piv.CADPROCOLEC, piv.CADPROGDESCR
+ORDER BY CADPROCOLEC DESC;`);
         return products.recordset
     }catch (error){
         console.log(error)

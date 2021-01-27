@@ -1,6 +1,6 @@
 
 .navbar{
-    width: 300px;
+    width: auto;
     height: 65px;
     background-color: #fffcfc;
     display: flex;
@@ -9,6 +9,7 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     color: #292828;
     margin-bottom: 30px;
+    padding-right: 10px;
     position: fixed;
     top: 0px;
     left: 0px;
@@ -31,6 +32,18 @@
 .navbar i:hover{
     font-size: 1.5em;
     cursor: pointer;
+}
+
+.message {
+    max-width: 80%;
+    margin-left: 10%;
+    padding-top: 100px;
+    text-align: justify;
+    font-size: 1.3em
+}
+
+.message span {
+    text-decoration: underline;
 }
 
 .order-alert-area{
@@ -90,13 +103,13 @@
     min-height: 100vh;
     position: relative;
     z-index: 99;
-    padding-top: 90px;
+    padding-top: 50px;
 }
 
 .card{
     position: relative;
-    width: 243px;
-    height: 520px;
+    width: 280px;
+    height: 600px;
     background: rgb(249,249,249);
     background: radial-gradient(circle, rgba(249,249,249,1) 0%, rgba(237,237,237,1) 100%);
     border-radius: 15px;
@@ -163,8 +176,8 @@ img{
 }
 
 .size-cards {
-   width: 55px;
-   height: 55px;
+   width: 40px;
+   height: 40px;
    background-color: white;
    border-radius: 15px;
    margin: 15px 5px;

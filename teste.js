@@ -6,7 +6,7 @@ const readDir = util.promisify(fs.readdir);
 
 readDir('public/imgs')
     .then(files => {
-        console.log(files)
+        let files
     })
 
 

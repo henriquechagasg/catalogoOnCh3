@@ -32,14 +32,17 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/?r=:refer', async(req, res) => {
+    let prices = await dbOperations.getProductPrice()
+    let filenames = fs.readdirSync('public/imgs')
     const { refer } = req.params;
     const regex = /\//g;
     products = await dbOperations.getRefer(refer)
     orders = await dbOperations.getOrders(refer)
-    res.render('refer2', { refer, products, regex, orders })    
+    
+    res.render('refer2', { refer, products, regex, orders, filenames, prices })    
 })
 
 
-app.listen(8080, () => {
+app.listen(3000, () => {
     console.log("Server On Port 8080.")
 })
