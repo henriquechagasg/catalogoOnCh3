@@ -32,12 +32,12 @@
       
       <div class="container">
         <% for (product of products) { %>
-        
+          
           <% let productPrice = prices.filter((product1) => {
             return product1.REFER.trim() == product.REFER.trim()
           })
           %>
-        
+                 
           <!-- My Logic  -->
 
         <% product.DESCR = product.DESCR.replace(regex, "-")
@@ -51,10 +51,13 @@
         <div class="card" id="product-card">
           <div class="card-image">
             <% let imgName = `${product.REFER.trim()}&${product.DESCR.trim()}`
-              console.log(imgName + '.jpg')
-              if (filenames.includes(imgName + '.jpg') || filenames.includes(imgName + '.jpeg')) { %>
-              <img src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
-            <% } else { %>
+             %>
+            <%  if (filenames.includes(imgName + '.jpg')) { %>
+              <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
+            <% } else if (filenames.includes(imgName + '.jpeg')) { %>
+              <% console.log(imgName + '.jpeg') %> 
+              <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpeg" alt="Este item nao tem foto =/">
+            <% } else { %>   
               <div>None</div>
             <% } %>
           </div>
@@ -144,8 +147,12 @@
               <div class="card-image">
                 <% 
                 let imgName = `${product.REFER.trim()}&${product.DESCR.trim()}`
-                if (filenames.includes(imgName + '.jpg') || filenames.includes(imgName + '.jpeg')) { %>
-                  <img src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
+                console.log(imgName) 
+                %>
+                <% if (filenames.includes(imgName + '.jpg')) { %>
+                  <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
+                <% } else if (filenames.includes(imgName + '.jpeg')) { %>  
+                  <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpeg" alt="Este item nao tem foto =/">  
                 <% } else { %>
                   <div>None</div>
                 <% } %>      

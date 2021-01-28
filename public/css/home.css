@@ -67,6 +67,11 @@ body{
     height: 70%;
     position: relative;
 }
+
+.photo{
+    object-fit: cover;
+}
+
 img{
     width: 100%;
     height: 100%;

@@ -7,96 +7,95 @@ async function getAll(){
         let products = await pool.request().query(`SELECT  CADPROREFER as REFER,CADPRODESCR as DESCRI, CADPROCOLEC , SUM(P) P, SUM(M) M, SUM(G) G, SUM(GG) GG
 		FROM
 		(
-			SELECT  CADPROREFER,CADPRODESCR, CADPROVDESCR, MOVITETP, MOVITEV_ESTOQUE, CADPROCOLEC
-					FROM
-					(
-					SELECT  isNull(CADFOR.FORNE
-					, '    ')  CADFORFORNE
-					, isNull(CADPRO.DESCR
-					, '                                        ')  CADPRODESCR
-					, isNull(CADPRO.UNID
-					, '      ')  CADPROUNID
-					, isNull(CADPRO.REFER
-					, '        ')  CADPROREFER
-					,MOVITE.VR MOVITEVR
-					, isNull(CADPROV.DESCR
-					, '                    ')  CADPROVDESCR
-					, isNull(STR(cadprotordem.ordem)
-					, MOVITE.TP)  MOVITETPORDEM
-					,MOVITE.TP MOVITETP
-					, isNull(CADPRO.COLEC
-					, '   ')  CADPROCOLEC
-					, isNull(CTAPAGG.DESCR
-					, '                    ')  CTAPAGGDESCR
-					, isNull(CADPRO.MARCA
-					, '   ')  CADPROMARCA
-					, isNull(CADPRO.FORNE
-					, '    ')  CADPROFORNE
-					,SUM(((MOVITE.QTDCOM_E-MOVITE.QTDCOM_D)+(MOVITE.QTDACE_E-MOVITE.QTDACE_D)-((MOVITE.QTDVEN_S-MOVITE.QTDVEN_D)+MOVITE.QTDSIG_A)) ) MOVITEV_SALDO
-					,SUM(((MOVITE.QTDSIG_S-MOVITE.QTDSIG_D)-MOVITE.QTDSIG_A) ) MOVITEV_SALDOCSG
-					,SUM(((MOVITE.QTDCOM_E-MOVITE.QTDCOM_D)+(MOVITE.QTDACE_E-MOVITE.QTDACE_D)-(MOVITE.QTDVEN_S-MOVITE.QTDVEN_D)-(MOVITE.QTDSIG_S-MOVITE.QTDSIG_D)) ) MOVITEV_ESTOQUE  from	movite
-					left join cadpro on cadpro.refer=movite.refer 
-					and cadpro.vr=movite.vr 
-					and cadpro.tp=movite.tp  
-					left join cadfor on	cadfor.forne = cadpro.forne  
-					left join cadprov on	cadprov.vr = movite.vr 
-					left join ctapagg on	ctapagg.ctapagg = cadpro.colec  
-					left join cadproTOrdem on		cadproTOrdem.tpOrdem = movite.tp  
-					where  movite.empre='002002' 
-					and dtemi< '2021-01-23'  
-					and (cadpro.espec = 'P' or cadpro.espec = ' ')  
-					and cadpro.inati  = 0   
-					group by isNull(CADFOR.FORNE
-					, '    ') 
-					, isNull(CADPRO.DESCR
-					, '                                        ') 
-					, isNull(CADPRO.UNID
-					, '      ') 
-					, isNull(CADPRO.REFER
-					, '        ') 
-					,MOVITE.VR
-					, isNull(CADPROV.DESCR
-					, '                    ') 
-					, isNull(STR(cadprotordem.ordem)
-					, MOVITE.TP) 
-					,MOVITE.TP
-					, isNull(CADPRO.COLEC
-					, '   ') 
-					, isNull(CTAPAGG.DESCR
-					, '                    ') 
-					, isNull(CADPRO.MARCA
-					, '   ') 
-					, isNull(CADPRO.FORNE
-					, '    ')  
-					, isNull(CADPRO.DESCR
-					, '                                        ') 
-					, isNull(CADPRO.UNID
-					, '      ') 
-					, isNull(CADPRO.REFER
-					, '        ') 
-					,MOVITE.VR
-					, isNull(CADPROV.DESCR
-					, '                    ') 
-					, isNull(STR(cadprotordem.ordem)
-					, MOVITE.TP) 
-					,MOVITE.TP
-					, isNull(CADPRO.COLEC
-					, '   ') 
-					, isNull(CTAPAGG.DESCR
-					, '                    ') 
-					, isNull(CADPRO.MARCA
-					, '   ') 
-					, isNull(CADPRO.FORNE
-					, '    ')  
-					)d
-			WHERE MOVITEV_ESTOQUE > 0
-			)f
-			pivot
-			(
-			max(MOVITEV_ESTOQUE)
-			FOR MOVITETP IN (P, M, G, GG)
-			)piv
-		
+		SELECT  CADPROREFER,CADPRODESCR, CADPROVDESCR, MOVITETP, MOVITEV_ESTOQUE, CADPROCOLEC
+		FROM 
+		(
+		SELECT  isNull(CADPRO.PTAB2
+		, 000000000000000.000000)  CADPROPTAB2
+		, isNull(CADPRO.DESCR
+		, '                                        ')  CADPRODESCR
+		, isNull(CADPRO.UNID
+		, '      ')  CADPROUNID
+		, isNull(CADPRO.REFER
+		, '        ')  CADPROREFER
+		,MOVITE.VR MOVITEVR
+		, isNull(CADPROV.DESCR
+		, '                    ')  CADPROVDESCR
+		, isNull(CADPRO.GRUPO
+		, '   ')  CADPROGRUPO
+		, isNull(CADPROG.DESCR
+		, '                    ')  CADPROGDESCR
+		, isNull(STR(cadprotordem.ordem)
+		, MOVITE.TP)  MOVITETPORDEM
+		,MOVITE.TP MOVITETP
+		, isNull(CADPRO.COLEC
+		, '   ')  CADPROCOLEC
+		, isNull(CTAPAGG.DESCR
+		, '                    ')  CTAPAGGDESCR
+		,SUM(((MOVITE.QTDCOM_E-MOVITE.QTDCOM_D)+(MOVITE.QTDACE_E-MOVITE.QTDACE_D)-((MOVITE.QTDVEN_S-MOVITE.QTDVEN_D)+MOVITE.QTDSIG_A)) ) MOVITEV_SALDO
+		,SUM(((MOVITE.QTDSIG_S-MOVITE.QTDSIG_D)-MOVITE.QTDSIG_A) ) MOVITEV_SALDOCSG
+		,SUM(((MOVITE.QTDCOM_E-MOVITE.QTDCOM_D)+(MOVITE.QTDACE_E-MOVITE.QTDACE_D)-(MOVITE.QTDVEN_S-MOVITE.QTDVEN_D)-(MOVITE.QTDSIG_S-MOVITE.QTDSIG_D)) ) MOVITEV_ESTOQUE  from	movite 
+		left join cadpro on cadpro.refer=movite.refer 
+		and cadpro.vr=movite.vr 
+		and cadpro.tp=movite.tp  
+		left join cadprog on	cadprog.produg = cadpro.grupo  
+		left join cadprov on	cadprov.vr = movite.vr 
+		left join ctapagg on	ctapagg.ctapagg = cadpro.colec  
+		left join cadproTOrdem on		cadproTOrdem.tpOrdem = movite.tp  
+		where  left(movite.empre
+		,3)='002' 
+		and (cadpro.espec = 'P' or cadpro.espec = ' ')  
+		and cadpro.inati  = 0   
+		group by isNull(CADPRO.PTAB2
+		, 000000000000000.000000) 
+		, isNull(CADPRO.DESCR
+		, '                                        ') 
+		, isNull(CADPRO.UNID
+		, '      ') 
+		, isNull(CADPRO.REFER
+		, '        ') 
+		,MOVITE.VR
+		, isNull(CADPROV.DESCR
+		, '                    ') 
+		, isNull(CADPRO.GRUPO
+		, '   ') 
+		, isNull(CADPROG.DESCR
+		, '                    ') 
+		, isNull(STR(cadprotordem.ordem)
+		, MOVITE.TP) 
+		,MOVITE.TP
+		, isNull(CADPRO.COLEC
+		, '   ') 
+		, isNull(CTAPAGG.DESCR
+		, '                    ')  
+		, isNull(CADPRO.DESCR
+		, '                                        ') 
+		, isNull(CADPRO.UNID
+		, '      ') 
+		, isNull(CADPRO.REFER
+		, '        ') 
+		,MOVITE.VR
+		, isNull(CADPROV.DESCR
+		, '                    ') 
+		, isNull(CADPRO.GRUPO
+		, '   ') 
+		, isNull(CADPROG.DESCR
+		, '                    ') 
+		, isNull(STR(cadprotordem.ordem)
+		, MOVITE.TP) 
+		,MOVITE.TP
+		, isNull(CADPRO.COLEC
+		, '   ') 
+		, isNull(CTAPAGG.DESCR
+		, '                    ')
+		)d
+		WHERE MOVITEV_ESTOQUE > 0
+		)f
+		pivot
+		(
+		max(MOVITEV_ESTOQUE)
+		FOR MOVITETP IN (P, M, G, GG)
+		)piv
 WHERE (CADPROREFER not like '%LD%' and CADPROREFER not like '%PIL%')
 GROUP BY PIV.CADPROREFER, PIV.CADPRODESCR, piv.CADPROCOLEC
 ORDER BY CADPROCOLEC DESC;`);
@@ -155,7 +154,6 @@ async function getRefer(refer){
 					left join ctapagg on	ctapagg.ctapagg = cadpro.colec  
 					left join cadproTOrdem on		cadproTOrdem.tpOrdem = movite.tp  
 					where  movite.empre='002002' 
-					and dtemi< '2021-01-23'  
 					and (cadpro.espec = 'P' or cadpro.espec = ' ')  
 					and cadpro.inati  = 0   
 					group by isNull(CADFOR.FORNE
@@ -213,7 +211,7 @@ async function getRefer(refer){
 			FOR MOVITETP IN (P, M, G, GG)
 			)piv
 		
-WHERE (CADPROREFER not like '%LD%' and CADPROREFER not like '%PIL%' and CADPROREFER=\'${refer}\')
+WHERE (CADPROREFER not like '%LD%' and CADPROREFER not like '%PIL%' and CADPROREFER like \'%${refer}%\')
 GROUP BY PIV.CADPROREFER, PIV.CADPRODESCR, piv.CADPROVDESCR, piv.CADPROCOLEC, piv.CADPROGDESCR
 ORDER BY CADPROCOLEC DESC;`);
         return products.recordset
@@ -264,7 +262,6 @@ async function getCollections(){
 					left join ctapagg on	ctapagg.ctapagg = cadpro.colec  
 					left join cadproTOrdem on		cadproTOrdem.tpOrdem = movite.tp  
 					where  movite.empre='002002' 
-					and dtemi< '2021-01-23'  
 					and (cadpro.espec = 'P' or cadpro.espec = ' ')  
 					and cadpro.inati  = 0   
 					group by isNull(CADFOR.FORNE
@@ -386,8 +383,6 @@ async function getProductPrice(){
 		left join cadprov on	cadprov.vr = movite.vr 
 		left join ctapagg on	ctapagg.ctapagg = cadpro.colec  
 		left join cadproTOrdem on		cadproTOrdem.tpOrdem = movite.tp  
-		where  movite.empre='002002' 
-		and dtemi< '2021-01-27'  
 		and (cadpro.espec = 'P' or cadpro.espec = ' ')  
 		and cadpro.inati  = 0   
 		group by isNull(CADPRO.DESCR

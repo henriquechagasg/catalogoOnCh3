@@ -15,16 +15,14 @@
       <% for (product of products) { %>
         <% let productPrice = prices.filter((product1) => {
             return product1.REFER.trim() == product.REFER.trim()
-        }) %>
+        }) 
+        console.log(product, productPrice)
+        %>
 
-
+        <%  if (product.image.length > 0 ) { %>
         <div class="large-card" id="large-card">
             <div class="card-image">
-            <%  if (product.image.length > 0 ) { %>
                 <img class="photo" data-src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
-            <% } else { %>
-                <div>None</div>
-            <% } %>    
             </div>
             <div class="card-text">
                 <p><b><%= product.REFER.trim() %></b></p>
@@ -40,9 +38,10 @@
                     <button id='details-btn'><b>Ver disponíveis</b></button>
                 </div>        
               </div>
-
-            
         </div>
+        <!-- End of If -->
+        <% } %>
+    <!-- End Of For -->
       <% } %> 
 
 
