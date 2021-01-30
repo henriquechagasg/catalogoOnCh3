@@ -1,4 +1,4 @@
-const dbOperations = require('./dboperations');
+const dbOperations = require('./dboperations1');
 const express = require('express');
 const path = require('path');
 const { Console } = require('console');
@@ -16,7 +16,6 @@ app.get('/', async (req, res) => {
     
     let filenames = fs.readdirSync('public/imgs')
     const regex = /\//g;
-    collections = await dbOperations.getCollections()
     products = await dbOperations.getAll()
     let prices = await dbOperations.getProductPrice()
     for await (product of products) {
@@ -27,8 +26,17 @@ app.get('/', async (req, res) => {
                 product['image'].push(file)
             }
         })
+        prices.forEach(productPrice => {
+            if (productPrice.REFER == product.REFER) {
+                product['pPrice'] = productPrice.P
+                product['mPrice'] = productPrice.M
+                product['gPrice'] = productPrice.G
+                product["ggPrice"] = productPrice.GG
+            }
+        })
+
     }
-    res.render('home\'', { products, regex, collections, prices, filenames })    
+    res.render('home\'', { products, regex, prices, filenames })    
 })
 
 app.get('/?r=:refer', async(req, res) => {
@@ -36,10 +44,51 @@ app.get('/?r=:refer', async(req, res) => {
     let filenames = fs.readdirSync('public/imgs')
     const { refer } = req.params;
     const regex = /\//g;
-    products = await dbOperations.getRefer(refer)
-    orders = await dbOperations.getOrders(refer)
+    const products = await dbOperations.getRefer(refer)
+    const orders = await dbOperations.getOrders(refer)
+
+    // Fixing Products data Based in other Tables
+    for await (product of products){
+        filenames.forEach(file => {
+            if (`${product.REFER}&${product.DESCR.trim()}.jpg` == file) {
+                product["image"] = file
+            } else if (`${product.REFER}&${product.DESCR.trim()}.jpeg` == file) {
+                product["image"] = file
+            }
+        })
+
+
+        // Getting the price for each Product
+        prices.forEach(productPrice => {
+            if (productPrice.REFER == product.REFER) {
+                product['pPrice'] = productPrice.P
+                product['mPrice'] = productPrice.M
+                product['gPrice'] = productPrice.G
+                product["ggPrice"] = productPrice.GG
+            }
+        })
+
+        // Taking out the ordered products from total
+        orders.forEach(order => {
+            if (order.REFER == product.REFER && order.DESCR.trim() == product.DESCR.trim()){
+                if (order.P){
+                    product.P = (Number(product.P) - Number(order.P))
+                }
+                if (order.M){
+                    product.M = (Number(product.M) - Number(order.M))
+                }
+                if (order.G){
+                    product.G = (Number(product.G) - Number(order.G))
+                }
+                if (order.GG){
+                    product.GG = (Number(product.GG) - Number(order.GG))
+                }                
+            }
+        })
+
+    }
     
-    res.render('refer2', { refer, products, regex, orders, filenames, prices })    
+    res.render('refer2', { refer, products, regex })    
 })
 
 

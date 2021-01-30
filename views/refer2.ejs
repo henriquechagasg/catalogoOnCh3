@@ -10,6 +10,7 @@
 </head>
 <body>
 
+
     <!-- NAvbar -->
     <div class="navbar">
       <div>
@@ -28,182 +29,60 @@
     </div>
 
 
-      <% if (orders.length > 0) { %> 
       
-      <div class="container">
-        <% for (product of products) { %>
-          
-          <% let productPrice = prices.filter((product1) => {
-            return product1.REFER.trim() == product.REFER.trim()
-          })
-          %>
-                 
-          <!-- My Logic  -->
-
-        <% product.DESCR = product.DESCR.replace(regex, "-")
-          product.REFER = product.REFER.replace(regex, '-')
-          let varOrder = orders.filter((product2) => {
-            return product2.DESCR.trim() == product.DESCR.trim()
-          })
-          %>
-          
-          
-        <div class="card" id="product-card">
-          <div class="card-image">
-            <% let imgName = `${product.REFER.trim()}&${product.DESCR.trim()}`
-             %>
-            <%  if (filenames.includes(imgName + '.jpg')) { %>
-              <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
-            <% } else if (filenames.includes(imgName + '.jpeg')) { %>
-              <% console.log(imgName + '.jpeg') %> 
-              <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpeg" alt="Este item nao tem foto =/">
-            <% } else { %>   
-              <div>None</div>
-            <% } %>
-          </div>
-            <div class="card-text">
-              <p><b>Referencia: <%= product.REFER.trim() %></b></p>
-              <p><%= product.DESCRI.trim()  %> </p>
-              <p><b>Cor: <%= product.DESCR.trim() %></b></p>
-              <% if (productPrice[0].P) { %>
-                <b><p>PREÇO: P M G -  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG - R$<%= productPrice[0].GG  %> <% } %></p></b>
-                <% } else if (productPrice[0].M) { %>
-                    <b><p>PREÇO: P M G - <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
-                <% } else if (productPrice[0].G) { %>
-                    <b><p>PREÇO: P M G - <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
-                <% } %>
-              <p>Tamanhos disponíveis:</p>  
-              <section class="quantity-cards">
-              <% if (varOrder.length > 0) { %>
-                <% if ((product.P - varOrder[0].P) > 0) { %> 
-                  <div class="size-cards">
-                    <b>P</b> 
-                  </div>
-                  <% } %>
-                  <% if ((product.M - varOrder[0].M) > 0) { %> 
-                  <div class="size-cards">
-                    <b>M</b> 
-                  </div>
-                  <% } %>
-                  <% if ((product.G - varOrder[0].G) > 0) { %> 
-                  <div class="size-cards">
-                    <b>G</b> 
-                  </div>
-                  <% } %>
-                  <% if ((product.GG - varOrder[0].GG) > 0) { %> 
-                  <div class="size-cards">
-                    <b>GG</b> 
-                  </div>
-                  <% } %>  
-              <% } else { %>
-
-                <% if (product.P) { %> 
-                  <div class="size-cards">
-                    <b>P</b> 
-                  </div>
-                  <% } %>
-                  <% if (product.M) { %> 
-                  <div class="size-cards">
-                    <b>M</b> 
-                  </div>
-                  <% } %>
-                  <% if (product.G) { %> 
-                  <div class="size-cards">
-                    <b>G</b> 
-                  </div>
-                  <% } %>
-                  <% if (product.GG) { %> 
-                  <div class="size-cards">
-                    <b>GG</b> 
-                  </div>
-                
-                  <% } %>   
-                  
-                  <% } %>   
-              </section>
-                
-            </div>
-          </div>
-          <% } %>
+    <div class="container">
+      <% for (product of products) { %>
+        <% if (product.image) { %>
+          <% product.DESCR = product.DESCR.replace(regex, "-")
+        product.REFER = product.REFER.replace(regex, '-') %>
+        <div class="card">  
+        <div class="card-image" id="product-card">
+          <img class= "photo" data-src="/imgs/<%=product.image %>" alt="Este item não tem foto =/">
         </div>
-     </div>
-
-
-
-
-      <% } else { %>
-          <div class="container">
-            <% for (product of products) { %>
-
-              <% let productPrice = prices.filter((product1) => {
-                return product1.REFER.trim() == product.REFER.trim()
-              })
-              %>
-              
-
-            <% product.DESCR = product.DESCR.replace(regex, "-")
-              product.REFER = product.REFER.replace(regex, '-') %>  
-            <div class="card" id="product-card">
-              <div class="card-image">
-                <% 
-                let imgName = `${product.REFER.trim()}&${product.DESCR.trim()}`
-                console.log(imgName) 
-                %>
-                <% if (filenames.includes(imgName + '.jpg')) { %>
-                  <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
-                <% } else if (filenames.includes(imgName + '.jpeg')) { %>  
-                  <img class="photo" data-src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpeg" alt="Este item nao tem foto =/">  
-                <% } else { %>
-                  <div>None</div>
-                <% } %>      
-              </div>
-                <div class="card-text">
-                  <p><b>Referência: <%= product.REFER.trim() %></b></p>
-                  <p><%= product.DESCRI.trim()  %></p>
-                  <p><b>Cor: <%= product.DESCR.trim() %></b></p>
-                  <% if (productPrice[0].P) { %>
-                    <b><p>PREÇO: P M G -  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG - R$<%= productPrice[0].GG  %> <% } %></p></b>
-                  <% } else if (productPrice[0].M) { %>
-                      <b><p>PREÇO: P M G - <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
-                  <% } else if (productPrice[0].G) { %>
-                      <b><p>PREÇO: P M G - <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG - <%= productPrice[0].GG  %> <% } %></p></b>
-                  <% } %>
-                  <p>Tamanhos disponíveis:</p>  
-                  <section class="quantity-cards">
-                    <% if (product.P) { %> 
-                    <div class="size-cards">
-                      <b>P</b> 
-                    </div>
-                    <% } %>
-                    <% if (product.M) { %> 
-                    <div class="size-cards">
-                      <b>M</b> 
-                    </div>
-                    <% } %>
-                    <% if (product.G) { %> 
-                    <div class="size-cards">
-                      <b>G</b> 
-                    </div>
-                    <% } %>
-                    <% if (product.GG) { %> 
-                    <div class="size-cards">
-                      <b>GG</b> 
-                    </div>
-                    <% } %>  
-                    
-      
-                  </section>
-  
-                </div>
-              </div>
-              <% } %>
+        <div class ="card-text">
+          <p><b>Referência: <%= product.REFER.trim() %></b></p>
+          <p><%= product.DESCRI.trim()  %></p>
+          <p><b>Cor: <%= product.DESCR.trim() %></b></p>
+          <% if (product.pPrice) { %>
+            <b><p> P M G:  R$<%= product.pPrice  %> <% if (product.ggPrice) { %> / GG: R$<%= product.ggPrice  %> <% } %></p></b>
+          <% } else if (product.mPrice) { %>
+              <b><p>P M G: <%= product.mPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+          <% } else if (product.gPrice) { %>
+              <b><p>P M G: <%= product.gPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+          <% } %>
+          <p>Tamanhos disponíveis:</p>
+          <section class="quantity-cards">
+            <% if (product.P > 0) { %> 
+            <div class="size-cards">
+              <b>P</b> 
             </div>
-         </div>
-          
-      <% } %>   
+            <% } %>
+            <% if (product.M > 0) { %> 
+            <div class="size-cards">
+              <b>M</b> 
+            </div>
+            <% } %>
+            <% if (product.G > 0) { %> 
+            <div class="size-cards">
+              <b>G</b> 
+            </div>
+            <% } %>
+            <% if (product.GG > 0) { %> 
+            <div class="size-cards">
+              <b>GG</b> 
+            </div>
+            <% } %>  
+          </section>
+            
+        </div>
 
-      
-  
+      </div>
+        <!-- End of If  -->
+        <% } %>
+      <!-- End of For -->
+      <% } %>
+    </div>
+
 
   <!-- Card para imagens: -->
     
