@@ -96,6 +96,4 @@ app.get('/?r=:refer', async(req, res) => {
 
 
 
-app.listen(3000, () => {
-    console.log("Server On Port 8080.")
-})
+app.listen(process.env.PORT || 3000)
