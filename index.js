@@ -26,7 +26,7 @@ app.get('/', async (req, res) => {
         filenames.forEach(file => {
             let index = file.indexOf('&')
             if (product.REFER.trim() == file.slice(0, index)) {
-                product['image'].push(file)
+                product['image'].push(encodeURIComponent(file))
             }
         })
         prices.forEach(productPrice => {
@@ -54,9 +54,9 @@ app.get('/?r=:refer', async(req, res) => {
     for await (product of products){
         filenames.forEach(file => {
             if (`${product.REFER}&${product.DESCR.trim()}.jpg` == file) {
-                product["image"] = file
+                product["image"] = encodeURIComponent(file)
             } else if (`${product.REFER}&${product.DESCR.trim()}.jpeg` == file) {
-                product["image"] = file
+                product["image"] = encodeURIComponent(file)
             }
         })
 
