@@ -7,8 +7,7 @@ require('dotenv').config()
 // Use connect method to connect to the Server
 
 async function getAll(){
-	const password = encodeURI(fs.readFileSync('login.txt', 'utf-8'))
-	const uri = `mongodb+srv://ch3moda:${password}@cluster0.t9qoq.mongodb.net/productsDb?retryWrites=true&w=majority`;
+	const uri = process.env.MONGO_URI
 	try {
 		const client = new MongoClient(uri);
 		// Connect to the MongoDB cluster
@@ -29,8 +28,7 @@ async function getAll(){
 async function getRefer(refer){
 	const regeX = /-/g; 
 	refer = refer.replace(regeX, '\/')
-	const password = encodeURI(fs.readFileSync('login.txt', 'utf-8'))
-	const uri = `mongodb+srv://ch3moda:${password}@cluster0.t9qoq.mongodb.net/productsDb?retryWrites=true&w=majority`;
+	const uri = process.env.MONGO_URI
 	try {
 		const client = new MongoClient(uri);
 		// Connect to the MongoDB cluster
@@ -49,8 +47,7 @@ async function getRefer(refer){
 }
 
 async function getProductPrice(){
-	const password = encodeURI(fs.readFileSync('login.txt', 'utf-8'))
-	const uri = `mongodb+srv://ch3moda:${password}@cluster0.t9qoq.mongodb.net/productsDb?retryWrites=true&w=majority`;
+	const uri = process.env.MONGO_URI
 	try {
 		const client = new MongoClient(uri);
 		// Connect to the MongoDB cluster
@@ -68,8 +65,7 @@ async function getProductPrice(){
 }
 
 async function getOrders(){
-	const password = encodeURI(fs.readFileSync('login.txt', 'utf-8'))
-	const uri = `mongodb+srv://ch3moda:${password}@cluster0.t9qoq.mongodb.net/productsDb?retryWrites=true&w=majority`;
+	const uri = process.env.MONGO_URI
 	try {
 		const client = new MongoClient(uri);
 		// Connect to the MongoDB cluster

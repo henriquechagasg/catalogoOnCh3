@@ -4,9 +4,7 @@ const path = require('path');
 const { Console } = require('console');
 const app = express();
 const fs = require('fs')
-const dotenv = require('dotenv');
 
-dotenv.config()
 
 
 
@@ -15,7 +13,6 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
 
-console.log(process.env.MONGODB_URI)
 
 
 app.get('/', async (req, res) => {
