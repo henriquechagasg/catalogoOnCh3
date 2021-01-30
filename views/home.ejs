@@ -22,11 +22,11 @@
                     <% for (image of product.image) { %>
                         <% if (image == product.image[0]) { %>
                             <div class="item active">
-                                <img class="photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalogoOnlineCh3/master/public/imgs/<%= image %>" alt="">
+                                <img class="photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalogoOnCh3/master/public/imgs/<%= image %>" alt="">
                             </div>
                         <% } else { %>
                             <div class="item">
-                                <img class= "photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalogoOnlineCh3/master/public/imgs/<%= image %>" alt="">
+                                <img class= "photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalogoOnCh3/master/public/imgs/<%= image %>" alt="">
                             </div>
                         <!--End of if -->
                         <% } %>          
@@ -40,7 +40,7 @@
             <!-- End of Multiple images Product -->
             <% } else { %>
                 <div class="card-image">
-                    <img class="photo" data-src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
+                    <img class="photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalogoOnCh3/master/public/imgs/<%= product.image[0] %>" alt="Nao há Foto">
                 </div>
                 <!-- End of single image products -->
             <%  } %>           
