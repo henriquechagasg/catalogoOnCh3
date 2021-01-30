@@ -88,7 +88,7 @@ app.get('/?r=:refer', async(req, res) => {
 
     }
     
-    res.render('refer2', { refer, products, regex, orders, filenames, prices })    
+    res.render('refer2', { refer, products, regex })    
 })
 
 

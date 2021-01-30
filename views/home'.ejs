@@ -16,9 +16,34 @@
        
         <%  if (product.image.length > 0 ) { %>
         <div class="large-card" id="large-card">
-            <div class="card-image">
-                <img class="photo" data-src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
-            </div>
+            <% if (product.image.length > 1) {%>
+               <div class="card-image"> 
+                    <div class="slider-itens">
+                    <% for (image of product.image) { %>
+                        <% if (image == product.image[0]) { %>
+                            <div class="item active">
+                                <img class="photo" data-src="/imgs/<%= image %>" alt="">
+                            </div>
+                        <% } else { %>
+                            <div class="item">
+                                <img class= "photo" data-src="/imgs/<%= image %>" alt="">
+                            </div>
+                        <!--End of if -->
+                        <% } %>          
+                    <!-- End of for -->
+                    <% } %>
+                    </div>
+                    <!-- Slider Controls -->
+                    <div class="left-slide"><</div>
+                    <div class="right-slide">></div>    
+                </div>
+            <!-- End of Multiple images Product -->
+            <% } else { %>
+                <div class="card-image">
+                    <img class="photo" data-src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
+                </div>
+                <!-- End of single image products -->
+            <%  } %>           
             <div class="card-text">
                 <p><b><%= product.REFER.trim() %></b></p>
                 <p><%= product.DESCRI.trim() %></p>
@@ -42,6 +67,7 @@
 
     </section>
 
+  
     <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>
     
     <script src="/js/main.js"></script>
