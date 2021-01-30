@@ -1,4 +1,4 @@
-const dbOperations = require('./dboperations1');
+const dbOperations = require('./dboperations');
 const express = require('express');
 const path = require('path');
 const { Console } = require('console');
@@ -36,7 +36,7 @@ app.get('/', async (req, res) => {
         })
 
     }
-    res.render('home\'', { products, regex, prices, filenames })    
+    res.render('home', { products, regex, prices, filenames })    
 })
 
 app.get('/?r=:refer', async(req, res) => {
@@ -88,7 +88,7 @@ app.get('/?r=:refer', async(req, res) => {
 
     }
     
-    res.render('refer2', { refer, products, regex })    
+    res.render('refer', { refer, products, regex })    
 })
 
 

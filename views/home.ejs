@@ -8,73 +8,69 @@
     <title>Document</title>
 </head>
 <body>
-    <nav class="nav-searchbar" id="search-box">
-        <div class='inside-navsearch'>
-            <input type="text" placeholder="Referência" id="ref-input">
-            <select id="select-category">
-              <option value="all">Categoria</i></option>
-              <option value="1">Regatas</option>
-              <option value="2">Calças</option>
-              <option value="3">Blusas</option>
-              <option value="4">Saias</option>
-              <option value="5">Casacos</option>
-              <option value="6">Vestidos</option>
-              <option value="7">Shorts</option>
-              <option value="8">Conjuntos</option>
-              <option value="9">Macacões</option>
-            </select>
-            <select id="select-collection">
-                <option value="allCollections">Coleção</option>
-              <% for (collection of collections) { %>
-                <option value="<%= collection.CADPROCOLEC  %> ">Coleção: <%= collection.CADPROCOLEC %> </option>
-              <% } %>  
-            </select>
-        </div>
-    </nav>
-
-    
 
     <section class="container" id="products-list">
-      <% for (product of products) { %> 
+
+
+      <% for (product of products) { %>
+       
+        <%  if (product.image.length > 0 ) { %>
         <div class="large-card" id="large-card">
-            <section class="details-side">
-                <h1><%= product.REFER %></h1>
-                <h2><%= product.DESCRI %></h2>
-                <h2>Coleção: <p><%= product.CADPROCOLEC %></p> </h2>
-            </section>
-            <section class="refer-quantitys">
-            <% if (product.P) { %> 
-            <div class="size-card">
-                <p><%= product.P %> </p>
-                <b>P</b>
-            </div>
-            <% } %>
-            <% if (product.M) { %> 
-            <div class="size-card">
-                <p><%= product.M %> </p>
-                <b>M</b>
-            </div>
-            <% } %>
-            <% if (product.G) { %> 
-            <div class="size-card">
-                <p><%= product.G %> </p>
-                <b>G</b>
-            </div>
-            <% } %>
-            <% if (product.GG) { %> 
-            <div class="size-card">
-                <p><%= product.GG %> </p>
-                <b>GG</b>
-            </div>
-            <% } %>     
-                      
-            </section>
+            <% if (product.image.length > 1) {%>
+               <div class="card-image"> 
+                    <div class="slider-itens">
+                    <% for (image of product.image) { %>
+                        <% if (image == product.image[0]) { %>
+                            <div class="item active">
+                                <img class="photo" data-src="/imgs/<%= image %>" alt="">
+                            </div>
+                        <% } else { %>
+                            <div class="item">
+                                <img class= "photo" data-src="/imgs/<%= image %>" alt="">
+                            </div>
+                        <!--End of if -->
+                        <% } %>          
+                    <!-- End of for -->
+                    <% } %>
+                    </div>
+                    <!-- Slider Controls -->
+                    <div class="left-slide"><</div>
+                    <div class="right-slide">></div>    
+                </div>
+            <!-- End of Multiple images Product -->
+            <% } else { %>
+                <div class="card-image">
+                    <img class="photo" data-src="/imgs/<%= product.image[0] %>" alt="Nao há Foto">
+                </div>
+                <!-- End of single image products -->
+            <%  } %>           
+            <div class="card-text">
+                <p><b><%= product.REFER.trim() %></b></p>
+                <p><%= product.DESCRI.trim() %></p>
+                <% if (product.pPrice) { %>
+                    <b><p> P M G:  R$<%= product.pPrice  %> <% if (product.ggPrice) { %> / GG: R$<%= product.ggPrice  %> <% } %></p></b>
+                <% } else if (product.mPrice) { %>
+                    <b><p>P M G: <%= product.mPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+                <% } else if (product.gPrice) { %>
+                    <b><p>P M G: <%= product.gPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+                <% } %>          
+                <div class="cardButton-area">
+                    <button id='details-btn'><b>Ver disponíveis</b></button>
+                </div>        
+              </div>
         </div>
+        <!-- End of If -->
+        <% } %>
+    <!-- End Of For -->
       <% } %> 
 
 
     </section>
 
+  
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>
+    
     <script src="/js/main.js"></script>
+
 </body>
 </html>

@@ -1,1 +1,0 @@
-console.log(encodeURIComponent('1944&PRETO.jpeg'))

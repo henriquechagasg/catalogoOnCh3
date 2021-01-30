@@ -10,7 +10,7 @@
 </head>
 <body>
 
-  
+
     <!-- NAvbar -->
     <div class="navbar">
       <div>
@@ -18,98 +18,76 @@
             <i class="fas fa-arrow-left"></i>
           </a>
       </div>
-      <h1 class="refer"><%= products[0].REFER.trim() %></h1>   
-      </div>
+      <h1 class="refer"><%= products[0].REFER.trim() %> - <%=  products[0].GRUPO[0] + products[0].GRUPO.substring(1).toLowerCase()%> </h1>   
+    </div>
 
+    <div class="message">
+        <p><b>Para pedir,</b> anote a <span>referêcia</span>, <span>cor</span> e <span>tamanho</span> desejado e nos envie no Whats.</p> 
+        <p>Se preferir nos envie um print.</p>
+        <!-- <p>Nossas vendedoras ficarão felizes em te atender!</p> -->
+      </h2>
+    </div>
 
-      <% if (orders.length > 0) { %> 
-      <div class="order-alert-area">
-        <div class="alert">
-          <h2><i class="fas fa-exclamation-triangle"></i>  Existe pedido pra essa referência.</h2>
-          <button onclick="showModal()" id="orders-button">Visualizar</button>
-        </div>
-          <!-- <h1>Tem pedido da <%= products[0].DESCRI  %> </h1> -->
-      </div>
-      <div class="modal-container" id="orders-modal">
-        <div class="modal">
-          <button class="closeOrders-button" onclick="closeModal()"><i class="fas fa-times"></i></button>
-          <% for(order of orders) { %> 
-          <div class="order-line">
-            <p><%= order.DESCR %> </p>
-            <div class="ordered-quantitys">
-              <% if (order.P) { %> 
-              <p><b><%= order.P %> </b> P</p>
-              <% } %>
-              <% if (order.M) { %> 
-              <p><b><%= order.M %> </b> M</p>
-              <% } %>
-              <% if (order.G) { %> 
-              <p><b><%= order.G %> </b> G</p>
-              <% } %>
-              <% if (order.GG) { %> 
-              <p><b><%= order.GG %> </b> GG</p>
-              <% } %>     
-            </div>          
-          </div>
-          <% } %> 
-     
-          
-        </div>
-      </div>
-      <% } %> 
 
       
-  
+    <div class="container">
+      <% for (product of products) { %>
+        <% if (product.image) { %>
+          <% product.DESCR = product.DESCR.replace(regex, "-")
+        product.REFER = product.REFER.replace(regex, '-') %>
+        <div class="card">  
+        <div class="card-image" id="product-card">
+          <img class= "photo" data-src="/imgs/<%=product.image %>" alt="Este item não tem foto =/">
+        </div>
+        <div class ="card-text">
+          <p><b>Referência: <%= product.REFER.trim() %></b></p>
+          <p><%= product.DESCRI.trim()  %></p>
+          <p><b>Cor: <%= product.DESCR.trim() %></b></p>
+          <% if (product.pPrice) { %>
+            <b><p> P M G:  R$<%= product.pPrice  %> <% if (product.ggPrice) { %> / GG: R$<%= product.ggPrice  %> <% } %></p></b>
+          <% } else if (product.mPrice) { %>
+              <b><p>P M G: <%= product.mPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+          <% } else if (product.gPrice) { %>
+              <b><p>P M G: <%= product.gPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+          <% } %>
+          <p>Tamanhos disponíveis:</p>
+          <section class="quantity-cards">
+            <% if (product.P > 0) { %> 
+            <div class="size-cards">
+              <b>P</b> 
+            </div>
+            <% } %>
+            <% if (product.M > 0) { %> 
+            <div class="size-cards">
+              <b>M</b> 
+            </div>
+            <% } %>
+            <% if (product.G > 0) { %> 
+            <div class="size-cards">
+              <b>G</b> 
+            </div>
+            <% } %>
+            <% if (product.GG > 0) { %> 
+            <div class="size-cards">
+              <b>GG</b> 
+            </div>
+            <% } %>  
+          </section>
+            
+        </div>
+
+      </div>
+        <!-- End of If  -->
+        <% } %>
+      <!-- End of For -->
+      <% } %>
+    </div>
+
 
   <!-- Card para imagens: -->
-    <div class="container">
-      <% for (product of products) { %> 
-      <% product.DESCR = product.DESCR.replace(regex, "-")
-         product.REFER = product.REFER.replace(regex, '-') %>  
-      <div class="card" id="product-card">
-        <div class="card-image">
-          <img src="/imgs/<%=product.REFER.trim()%>&<%=product.DESCR.trim()%>.jpg" alt="Este item nao tem foto =/">
-        </div>
-          <div class="card-text">
-            <p><b><%= product.DESCRI.trim() %></b></p>
-            <p> <%= product.DESCR.trim() %> </p>
-            <section class="quantity-cards">
-              <% if (product.P) { %> 
-              <div class="size-cards">
-                <p><%=product.P%></p>
-                <b>P</b> 
-              </div>
-              <% } %>
-              <% if (product.M) { %> 
-              <div class="size-cards">
-                <p><%=product.M%></p>
-                <b>M</b> 
-              </div>
-              <% } %>
-              <% if (product.G) { %> 
-              <div class="size-cards">
-                <p><%=product.G%></p>
-                <b>G</b> 
-              </div>
-              <% } %>
-              <% if (product.GG) { %> 
-              <div class="size-cards">
-                <p><%=product.GG%></p>
-                <b>GG</b> 
-              </div>
-              <% } %>  
-              
-
-            </section>
-              
-          </div>
-        </div>
-        <% } %>
-      </div>
     
-  </div>
  
-
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>   
     <script>
       const modal = document.querySelector("#orders-modal")
       function back () {
