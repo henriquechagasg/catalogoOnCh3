@@ -12,7 +12,6 @@ async function getAll(){
 		const client = new MongoClient(uri);
 		// Connect to the MongoDB cluster
 		await client.connect();
-		console.log('Database Connected')
 		const db = client.db("productsDb")
 		const cursor = db.collection('Refers').find({})
 		let products = []
