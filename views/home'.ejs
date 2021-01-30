@@ -9,16 +9,11 @@
 </head>
 <body>
 
-
     <section class="container" id="products-list">
 
-      <% for (product of products) { %>
-        <% let productPrice = prices.filter((product1) => {
-            return product1.REFER.trim() == product.REFER.trim()
-        }) 
-        console.log(product, productPrice)
-        %>
 
+      <% for (product of products) { %>
+       
         <%  if (product.image.length > 0 ) { %>
         <div class="large-card" id="large-card">
             <div class="card-image">
@@ -27,12 +22,12 @@
             <div class="card-text">
                 <p><b><%= product.REFER.trim() %></b></p>
                 <p><%= product.DESCRI.trim() %></p>
-                <% if (productPrice[0].P) { %>
-                    <b><p> P M G:  R$<%= productPrice[0].P  %> <% if (productPrice[0].GG) { %> / GG: R$<%= productPrice[0].GG  %> <% } %></p></b>
-                <% } else if (productPrice[0].M) { %>
-                    <b><p>P M G: <%= productPrice[0].M  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
-                <% } else if (productPrice[0].G) { %>
-                    <b><p>P M G: <%= productPrice[0].G  %> <% if (productPrice[0].GG) { %> / GG: <%= productPrice[0].GG  %> <% } %></p></b>
+                <% if (product.pPrice) { %>
+                    <b><p> P M G:  R$<%= product.pPrice  %> <% if (product.ggPrice) { %> / GG: R$<%= product.ggPrice  %> <% } %></p></b>
+                <% } else if (product.mPrice) { %>
+                    <b><p>P M G: <%= product.mPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+                <% } else if (product.gPrice) { %>
+                    <b><p>P M G: <%= product.gPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
                 <% } %>          
                 <div class="cardButton-area">
                     <button id='details-btn'><b>Ver disponíveis</b></button>

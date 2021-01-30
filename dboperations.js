@@ -440,4 +440,4 @@ module.exports = {
 	getCollections: getCollections,
 	getOrders: getOrders,
 	getProductPrice: getProductPrice
-}
+}	
