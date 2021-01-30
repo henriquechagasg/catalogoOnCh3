@@ -1,7 +1,6 @@
-const fs = require("fs")
-const mongoose = require("mongoose")
+const fs = require("fs");
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+require('dotenv').config();
 
 // Connection URL
 
@@ -88,6 +87,7 @@ async function getOrders(){
 	}
 }
 
+console.log(process.env.MONGODB_URI)
 
 module.exports = {
     getAll: getAll,
