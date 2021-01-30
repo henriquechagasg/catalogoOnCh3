@@ -1,7 +1,6 @@
 const fs = require("fs");
 const MongoClient = require('mongodb').MongoClient;
-require('dotenv').config();
-
+require('dotenv').config()
 // Connection URL
 
 
@@ -87,7 +86,6 @@ async function getOrders(){
 	}
 }
 
-console.log(process.env.MONGODB_URI)
 
 module.exports = {
     getAll: getAll,
