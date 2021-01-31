@@ -53,7 +53,9 @@ app.get('/?r=:refer', async(req, res) => {
     // Fixing Products data Based in other Tables
     for await (product of products){
         filenames.forEach(file => {
-            if (`${product.REFER}&${product.DESCR.trim()}.jpg` == file) {
+            productName = product.REFER.replace(regex, '-')
+            productDescr = product.DESCR.trim().replace(regex, '-')
+            if (`${productName}&${productDescr}.jpg` == file) {
                 product["image"] = encodeURIComponent(file)
             } else if (`${product.REFER}&${product.DESCR.trim()}.jpeg` == file) {
                 product["image"] = encodeURIComponent(file)
