@@ -57,7 +57,7 @@ app.get('/?r=:refer', async(req, res) => {
             productDescr = product.DESCR.trim().replace(regex, '-')
             if (`${productName}&${productDescr}.jpg` == file) {
                 product["image"] = encodeURIComponent(file)
-            } else if (`${product.REFER}&${product.DESCR.trim()}.jpeg` == file) {
+            } else if (`${productName}&${productDescr}.jpeg` == file) {
                 product["image"] = encodeURIComponent(file)
             }
         })
