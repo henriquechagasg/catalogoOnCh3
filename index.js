@@ -59,6 +59,8 @@ app.get('/?r=:refer', async(req, res) => {
                 product["image"] = encodeURIComponent(file)
             } else if (`${productName}&${productDescr}.jpeg` == file) {
                 product["image"] = encodeURIComponent(file)
+            } else if (`${productName}&${productDescr}.png` == file) {
+                product["image"] = encodeURIComponent(file)
             }
         })
 
