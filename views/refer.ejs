@@ -32,7 +32,7 @@
       
     <div class="container">
       <% for (product of products) { %>
-        <% if (product.image && (product.P+product.M+product.G+product.GG) > 0 ) { %>
+        <% if (product.image && ((product.P || 0)+(product.M || 0)+(product.G || 0)+(product.GG || 0)) > 0 ) { %>
           <% product.DESCR = product.DESCR.replace(regex, "-")
         product.REFER = product.REFER.replace(regex, '-') %>
         <div class="card">  
