@@ -35,8 +35,10 @@ detailsButton.forEach((button) => {
 })
 
 selectCategory.addEventListener("change", () => {
-    let location = `/q=${selectCategory.value}`
-    window.location = location
+    if (selectCategory.value != "allCategorys"){
+        let location = `/q=${selectCategory.value}`
+        window.location = location
+    }
 })
 
 
