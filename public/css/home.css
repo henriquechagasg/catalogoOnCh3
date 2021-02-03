@@ -28,10 +28,67 @@ body{
     position: relative;
     z-index: 100;
     font-size: 0.8em;
+    padding-top: 60px;
 }
 
 /* -------------------   Global    -----------------------*/
 
+
+/* -------------------   Nav SearchBar    -----------------------*/
+
+.nav-searchbar {
+    height: 47px;
+    background-color: white;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    position: fixed;
+    top: 15px;
+    left: 5vw;
+    z-index: 101;
+}
+
+.inside-navsearch {
+    width: 95%;
+    margin: 0 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inside-navsearch form {
+    width: 100%
+}
+
+
+.inside-navsearch select{
+    border: none;
+    color: #292828;;
+    font-size: 1.3em;
+    transition: transform 0.2s;
+    margin:0 10px 0 5px;
+}
+
+
+
+    @media screen and (max-width: 800px) {
+
+    .nav-searchbar{
+        width: 70%;
+        margin-left: 15%;
+        height: auto;
+        left: 0;
+    }
+    .inside-navsearch{
+        margin: 0
+    }
+
+   
+}
+
+/* -------------------   Nav SearchBar    -----------------------*/
 
 
 

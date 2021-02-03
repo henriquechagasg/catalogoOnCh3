@@ -1,6 +1,7 @@
 const productCard = document.querySelectorAll('#large-card')
 const detailsButton = document.querySelectorAll("#details-btn")
 const referProductCard = document.querySelectorAll("#product-card")
+const selectCategory = document.querySelector("#select-category")
 const myLazyLoad = new LazyLoad({
     elements_selector: ".photo"
 })
@@ -18,7 +19,6 @@ referProductCard.forEach((product) => {
 })
 
 
-
 detailsButton.forEach((button) => {
     button.addEventListener('click', () => {
         let location = `/r=${button.parentElement.parentElement.firstElementChild.innerText}`
@@ -27,7 +27,7 @@ detailsButton.forEach((button) => {
 })
 
 
-// ----- Slide Logic
+// ----- Card Slide
 
 
 productCard.forEach((element) => {

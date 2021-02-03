@@ -100,7 +100,6 @@ app.get('/?r=:refer', async(req, res) => {
 
 app.get('/?q=:category', async(req, res) => {
     const { category } = req.params
-    console.log(category.toUpperCase())
     let filenames = fs.readdirSync('public/imgs')
     products = await dbOperations.getAll(category.toUpperCase())
     let prices = await dbOperations.getProductPrice()
@@ -122,7 +121,7 @@ app.get('/?q=:category', async(req, res) => {
         })
 
     }
-    res.render('category', { products,  prices, filenames }) 
+    res.render('category', { products,  prices, filenames, category }) 
 })
 
 app.listen(process.env.PORT || 3000)

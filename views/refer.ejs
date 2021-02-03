@@ -12,14 +12,14 @@
 
 
     <!-- NAvbar -->
-    <div class="navbar">
+    <nav class="navbar">
       <div>
           <a onclick="back()" class="arrow-left">
             <i class="fas fa-arrow-left"></i>
           </a>
       </div>
       <h1 class="refer"><%= products[0].REFER.trim() %> - <%=  products[0].GRUPO[0] + products[0].GRUPO.substring(1).toLowerCase()%> </h1>   
-    </div>
+    </nav>
 
     <div class="message">
         <p><b>Para pedir,</b> anote a <span>referência</span>, <span>cor</span> e <span>tamanho</span> desejado e nos envie no Whats.</p> 
@@ -101,6 +101,6 @@
         modal.classList.remove("show")
       }
     </script>
-    <script src="/js/main.js"></script>
+    <script src="/js/home-refer.js"></script>
 </body>
 </html>
