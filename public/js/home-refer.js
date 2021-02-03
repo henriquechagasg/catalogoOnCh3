@@ -37,10 +37,10 @@ detailsButton.forEach((button) => {
 selectCategory.addEventListener("change", () => {
     if (selectCategory.value != "allCategorys"){
         let location = `/q=${selectCategory.value}`
+        selectCategory.selectedIndex = "allCategorys"
         window.location = location
     }
 })
-
 
 // ----- Card Slide
 
