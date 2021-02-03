@@ -6,22 +6,41 @@ require('dotenv').config()
 
 // Use connect method to connect to the Server
 
-async function getAll(){
+async function getAll(category){
 	const uri = process.env.MONGO_URI
-	try {
-		const client = new MongoClient(uri);
-		// Connect to the MongoDB cluster
-		await client.connect();
-		const db = client.db("productsDb")
-		const cursor = db.collection('Refers').find({})
-		let products = []
-		await cursor.forEach(product => {
-			products.push(product)
-		})
-		return products
-	}catch{
-		console.error
+	const categoryPassed = category || undefined
+	if (categoryPassed) {
+		try {
+			const client = new MongoClient(uri);
+			// Connect to the MongoDB cluster
+			await client.connect();
+			const db = client.db("productsDb")
+			const cursor = db.collection('Refers').find({"CADPROGDESCR": categoryPassed})
+			let products = []
+			await cursor.forEach(product => {
+				products.push(product)
+			})
+			return products
+		}catch{
+			console.error
+		}
+	} else {
+		try {
+			const client = new MongoClient(uri);
+			// Connect to the MongoDB cluster
+			await client.connect();
+			const db = client.db("productsDb")
+			const cursor = db.collection('Refers').find({})
+			let products = []
+			await cursor.forEach(product => {
+				products.push(product)
+			})
+			return products
+		}catch{
+			console.error
+		}
 	}
+
 }
 
 async function getRefer(refer){
@@ -81,10 +100,25 @@ async function getOrders(){
 	}
 }
 
+async function getCategorys(){
+	const uri = process.env.MONGO_URI
+	try {
+		const client = new MongoClient(uri);
+		// Connect to the MongoDB cluster
+		await client.connect();
+		const db = client.db("productsDb")
+		const cursor = await db.collection("Refers").distinct("CADPROGDESCR")		
+		return cursor
+	}catch{
+		console.error
+	}
+}
+
 
 module.exports = {
     getAll: getAll,
     getRefer: getRefer,
 	getOrders: getOrders,
-	getProductPrice: getProductPrice
+	getProductPrice: getProductPrice,
+	getCategorys: getCategorys
 }	

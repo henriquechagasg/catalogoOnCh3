@@ -18,9 +18,9 @@ app.set('view engine', 'ejs')
 app.get('/', async (req, res) => {
     
     let filenames = fs.readdirSync('public/imgs')
-    const regex = /\//g;
-    products = await dbOperations.getAll()
+    let products = await dbOperations.getAll()
     let prices = await dbOperations.getProductPrice()
+    let categorys = await dbOperations.getCategorys()
     for await (product of products) {
         product['image'] = []
         filenames.forEach(file => {
@@ -37,9 +37,9 @@ app.get('/', async (req, res) => {
                 product["ggPrice"] = productPrice.GG
             }
         })
-
     }
-    res.render('home', { products, regex, prices, filenames })    
+
+    res.render('home', { products, prices, filenames, categorys })    
 })
 
 app.get('/?r=:refer', async(req, res) => {
@@ -98,6 +98,31 @@ app.get('/?r=:refer', async(req, res) => {
     res.render('refer', { refer, products, regex })    
 })
 
+app.get('/?q=:category', async(req, res) => {
+    const { category } = req.params
+    console.log(category.toUpperCase())
+    let filenames = fs.readdirSync('public/imgs')
+    products = await dbOperations.getAll(category.toUpperCase())
+    let prices = await dbOperations.getProductPrice()
+    for await (product of products) {
+        product['image'] = []
+        filenames.forEach(file => {
+            let index = file.indexOf('&')
+            if (product.REFER.trim() == file.slice(0, index)) {
+                product['image'].push(encodeURIComponent(file))
+            }
+        })
+        prices.forEach(productPrice => {
+            if (productPrice.REFER == product.REFER) {
+                product['pPrice'] = productPrice.P
+                product['mPrice'] = productPrice.M
+                product['gPrice'] = productPrice.G
+                product["ggPrice"] = productPrice.GG
+            }
+        })
 
+    }
+    res.render('category', { products,  prices, filenames }) 
+})
 
 app.listen(process.env.PORT || 3000)
