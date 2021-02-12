@@ -97,7 +97,6 @@ body{
 .large-card{
     width: 243px;
     height: 520px;
-    margin: 7px 0;
     background: rgb(249,249,249);
     background: radial-gradient(circle, rgba(249,249,249,1) 0%, rgba(237,237,237,1) 100%);
     border-radius: 20px;
@@ -105,7 +104,7 @@ body{
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: transform 0.2s;
-    margin: 30px 0;
+    margin: 30px 10px;
 
 }
 
