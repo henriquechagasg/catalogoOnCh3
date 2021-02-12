@@ -27,6 +27,12 @@
         <!-- <p>Nossas vendedoras ficarão felizes em te atender!</p> -->
       </h2>
     </div>
+    <% if (products && products.length > 0) { %> 
+    <div class="message">
+      <p>Descrição: <b><%= products[0].DESCRI.trim()  %></b></p>
+    </div>
+    <% } %> 
+
 
 
       
@@ -41,7 +47,6 @@
         </div>
         <div class ="card-text">
           <p><b>Referência: <%= product.REFER.trim() %></b></p>
-          <p><%= product.DESCRI.trim()  %></p>
           <p><b>Cor: <%= product.DESCR.trim() %></b></p>
           <% if (product.pPrice) { %>
             <b><p> P M G:  R$<%= product.pPrice  %> <% if (product.ggPrice) { %> / GG: R$<%= product.ggPrice  %> <% } %></p></b>
@@ -51,26 +56,47 @@
               <b><p>P M G: <%= product.gPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
           <% } %>
           <p>Tamanhos disponíveis:</p>
-          <section class="quantity-cards">
+          <section class="order-cards">
+            
             <% if (product.P > 0) { %> 
-            <div class="size-cards">
-              <b>P</b> 
-            </div>
+              <div class="each-size">
+                <div class="size-card">
+                  <i class="fas fa-sort-up"></i>
+                  <p>0</p>
+                  <i class="fas fa-sort-down"></i>
+                </div>
+                <b>P</b>
+              </div>
             <% } %>
             <% if (product.M > 0) { %> 
-            <div class="size-cards">
-              <b>M</b> 
-            </div>
+              <div class="each-size">
+                <div class="size-card">
+                  <i class="fas fa-sort-up"></i>
+                  <p>0</p>
+                  <i class="fas fa-sort-down"></i>
+                </div>
+                <b>M</b>
+              </div>
             <% } %>
             <% if (product.G > 0) { %> 
-            <div class="size-cards">
-              <b>G</b> 
-            </div>
+              <div class="each-size">
+                <div class="size-card">
+                  <i class="fas fa-sort-up"></i>
+                  <p>0</p>
+                  <i class="fas fa-sort-down"></i>
+                </div>
+                <b>G</b>
+              </div>
             <% } %>
             <% if (product.GG > 0) { %> 
-            <div class="size-cards">
-              <b>GG</b> 
-            </div>
+              <div class="each-size">
+                <div class="size-card">
+                  <i class="fas fa-sort-up"></i>
+                  <p>0</p>
+                  <i class="fas fa-sort-down"></i>
+                </div>
+                <b>GG</b>
+              </div>
             <% } %>  
           </section>
             
@@ -81,6 +107,15 @@
         <% } %>
       <!-- End of For -->
       <% } %>
+    </div>
+    <div class="hidden-buttons">
+      <button class='bag-btn'><i class="fas fa-shopping-cart"></i></button>
+      <form action="">
+        <div class="add-cart-btn">
+        <button class='order-btn'>Adicionar</button>
+        <i class="fas fa-cart-plus"></i>
+      </div>
+      </form>
     </div>
 
 
@@ -102,5 +137,6 @@
       }
     </script>
     <script src="/js/home-refer.js"></script>
+    <script src="/js/refer.js"></script>
 </body>
 </html>
