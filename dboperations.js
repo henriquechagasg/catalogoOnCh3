@@ -43,6 +43,25 @@ async function getAll(category){
 
 }
 
+async function getAllRefers(){
+	const uri = process.env.MONGO_URI
+	try {
+		const client = new MongoClient(uri);
+		// Connect to the MongoDB cluster
+		await client.connect();
+		const db = client.db("productsDb")
+		const cursor = db.collection('Variations').find({})
+		let products = []
+		await cursor.forEach(product => {
+			products.push(product)
+		})
+		return products
+	}catch{
+		console.error
+	}
+	
+}
+
 async function getRefer(refer){
 	const regeX = /-/g; 
 	refer = refer.replace(regeX, '\/')
@@ -114,11 +133,47 @@ async function getCategorys(){
 	}
 }
 
+async function removeProductShow(product){
+	const uri = process.env.MONGO_URI
+	try {
+		const client = new MongoClient(uri);
+		// Connect to the MongoDB cluster
+		await client.connect();
+		const db = client.db("productsDb")
+		await db.collection("showproducts").findOneAndDelete({"Product": product.Product});
+	}catch{
+		console.error
+	}
+}
+
+
+async function findProductShow(){
+	const uri = process.env.MONGO_URI
+	try {
+		const client = new MongoClient(uri);
+		// Connect to the MongoDB cluster
+		await client.connect();
+		const db = client.db("productsDb")
+		const cursor = db.collection("showproducts").find({});
+		let products = []
+		await cursor.forEach(product => {
+			products.push(product)
+		})
+		return products
+	}catch{
+		console.error
+	}
+}
+
+
 
 module.exports = {
     getAll: getAll,
+	getAllRefers: getAllRefers,
     getRefer: getRefer,
 	getOrders: getOrders,
 	getProductPrice: getProductPrice,
-	getCategorys: getCategorys
+	getCategorys: getCategorys,
+	removeProductShow: removeProductShow,
+	findProductShow: findProductShow
 }	

@@ -1,19 +1,38 @@
 const dbOperations = require('./dboperations');
 const express = require('express');
+const mongoose = require('mongoose');
 const path = require('path');
-const { Console } = require('console');
 const app = express();
+const methodOverride = require('method-override');
+const { cloudinary } = require('./cloudinary');
+const multer = require('multer');
+const { storage } = require('./cloudinary');
+const upload = multer({ storage });
+const showProductsDb = require('./models/productsToShow');
+
 const fs = require('fs')
 
+const dbUrl = process.env.MONGO_URI 
+
+mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
 
 
-
-
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
-
-
 
 app.get('/', async (req, res) => {
     
@@ -21,14 +40,9 @@ app.get('/', async (req, res) => {
     let products = await dbOperations.getAll()
     let prices = await dbOperations.getProductPrice()
     let categorys = await dbOperations.getCategorys()
+    let productToShow = await dbOperations.findProductShow();
     for await (product of products) {
-        product['image'] = []
-        filenames.forEach(file => {
-            let index = file.indexOf('&')
-            if (product.REFER.trim() == file.slice(0, index)) {
-                product['image'].push(encodeURIComponent(file))
-            }
-        })
+        
         prices.forEach(productPrice => {
             if (productPrice.REFER == product.REFER) {
                 product['pPrice'] = productPrice.P
@@ -37,8 +51,18 @@ app.get('/', async (req, res) => {
                 product["ggPrice"] = productPrice.GG
             }
         })
-    }
 
+        product['image'] = []
+        productToShow.forEach(el => {
+            let index = el.Product.indexOf('&');
+            currentProduct = el.Product.slice(0, index);
+            if (product.REFER == currentProduct){
+                product['isAdded'] = true
+                product['image'].push(el.url);
+            }
+        })
+    }
+    
     res.render('home', { products, prices, filenames, categorys })    
 })
 
@@ -47,23 +71,19 @@ app.get('/?r=:refer', async(req, res) => {
     let filenames = fs.readdirSync('public/imgs')
     const { refer } = req.params;
     const regex = /\//g;
-    const products = await dbOperations.getRefer(refer)
-    const orders = await dbOperations.getOrders(refer)
+    const products = await dbOperations.getRefer(refer);
+    const orders = await dbOperations.getOrders(refer);
+    let productToShow = await dbOperations.findProductShow();
 
     // Fixing Products data Based in other Tables
     for await (product of products){
-        filenames.forEach(file => {
-            productName = product.REFER.replace(regex, '-')
-            productDescr = product.DESCR.trim().replace(regex, '-')
-            if (`${productName}&${productDescr}.jpg` == file) {
-                product["image"] = encodeURIComponent(file)
-            } else if (`${productName}&${productDescr}.jpeg` == file) {
-                product["image"] = encodeURIComponent(file)
-            } else if (`${productName}&${productDescr}.png` == file) {
-                product["image"] = encodeURIComponent(file)
-            }
-        })
 
+        productToShow.forEach(el => {
+            currentProductCompleteName = `${product.REFER.trim()}&${product.DESCR.trim()}`
+            if (currentProductCompleteName == el.Product){
+                product['image'] = el.url
+            }
+        });
 
         // Getting the price for each Product
         prices.forEach(productPrice => {
@@ -101,16 +121,11 @@ app.get('/?r=:refer', async(req, res) => {
 app.get('/?q=:category', async(req, res) => {
     const { category } = req.params
     let filenames = fs.readdirSync('public/imgs')
-    products = await dbOperations.getAll(category.toUpperCase())
-    let prices = await dbOperations.getProductPrice()
+    products = await dbOperations.getAll(category.toUpperCase());
+    let prices = await dbOperations.getProductPrice();
+    let productToShow = await dbOperations.findProductShow();
     for await (product of products) {
-        product['image'] = []
-        filenames.forEach(file => {
-            let index = file.indexOf('&')
-            if (product.REFER.trim() == file.slice(0, index)) {
-                product['image'].push(encodeURIComponent(file))
-            }
-        })
+        
         prices.forEach(productPrice => {
             if (productPrice.REFER == product.REFER) {
                 product['pPrice'] = productPrice.P
@@ -118,10 +133,58 @@ app.get('/?q=:category', async(req, res) => {
                 product['gPrice'] = productPrice.G
                 product["ggPrice"] = productPrice.GG
             }
-        })
+        });
 
+        product['image'] = []
+        productToShow.forEach(el => {
+            let index = el.Product.indexOf('&');
+            currentProduct = el.Product.slice(0, index);
+            if (product.REFER == currentProduct){
+                product['isAdded'] = true
+                product['image'].push(el.url);
+            }
+        });
     }
+
     res.render('category', { products,  prices, filenames, category }) 
-})
+});
+
+app.get('/ch3Secret/update', async(req, res) => {
+    res.render('search');
+});
+
+app.get('/ch3Secret/update/:refer',  async(req, res) => {
+    const { refer } = req.params;
+    const products = await dbOperations.getRefer(refer);
+    let productToShow = await dbOperations.findProductShow();
+    for await (product of products) {
+        productToShow.forEach(el => {
+            productName = `${product.REFER.trim()}&${product.DESCR.trim()}`
+            if (productName == el.Product){
+                product['isAdded'] = true
+            }
+        })
+    }
+    res.render('update', { products });
+
+});
+
+app.post('/ch3Secret/update/:refer', upload.single('image'), async(req, res) => {
+    const { refer } = req.params;
+    const addProduct = new showProductsDb(req.body)
+    addProduct.url = req.file.path;
+    addProduct.filename = req.file.filename
+    await addProduct.save()
+    res.redirect(`/ch3Secret/update/${refer}`);
+
+});
+
+app.delete('/ch3Secret/update/:refer', async(req, res) => {
+    const { refer } = req.params;
+    const productToDelete = await showProductsDb.findOne(req.body);
+    await cloudinary.uploader.destroy(productToDelete.filename)
+    await showProductsDb.findOneAndDelete(req.body);
+    res.redirect(`/ch3Secret/update/${refer}`);
+});
 
 app.listen(process.env.PORT || 3000)
