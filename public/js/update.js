@@ -5,12 +5,13 @@ allCards.forEach((el, i) => {
     let fakeFileButton = el.querySelector('.fakeFileButton');
     let checkMark = el.querySelector('.fas.fa-check');
     
-    fakeFileButton.addEventListener('click',  (e) => {
-        e.preventDefault()
-        realFileButton.click()
-    });
-    realFileButton.addEventListener('change', () => {
-        checkMark.classList.remove('hide');
-    });
-
+    if (fakeFileButton) {
+        fakeFileButton.addEventListener('click',  (e) => {
+            e.preventDefault()
+            realFileButton.click()
+        });
+        realFileButton.addEventListener('change', () => {
+            checkMark.classList.remove('hide');
+        });    
+    }
 })
