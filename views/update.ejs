@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/1c2c2462bf.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/update.css">        
+    <title>Atualizar</title>
+</head>
+<body>
+
+    <div class="container mt">
+        <% for (product of products) { %> 
+        <div class="card">
+            <p><%= product.REFER.trim() %></p>
+            <p><%= product.DESCR.trim() %></p>
+            <% if (!product.isAdded) { %> 
+            <form action="/ch3Secret/update/<%= product.REFER.trim() %> " method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="Product" value="<%= `${product.REFER.trim()}&${product.DESCR.trim()}` %>">
+                <!-- <input type="hidden" name="URL" value=""> -->
+                <input class="realFileButton hide" type="file" id="image" name="image" multiple>
+                <button class="fakeFileButton">Imagem</button>
+                <i class="fas fa-check hide"></i>    
+                <!-- <input type="hidden" name="File" value=""> -->
+                <button type="submit">Adicionar</button>
+            </form>
+            <% } else { %> 
+            <form action="/ch3Secret/update/<%= product.REFER.trim()%>?_method=DELETE" method="POST">
+                <input type="hidden" name="Product" value="<%= `${product.REFER.trim()}&${product.DESCR.trim()}` %>">
+                <button id="remove-btn" type="submit">Remover</button>
+            </form>
+            <% } %>     
+        </div>
+        <% } %> 
+    </div>
+
+    <script src="/js/update.js"></script>
+</body>
+</html>

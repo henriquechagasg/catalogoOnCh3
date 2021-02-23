@@ -37,7 +37,7 @@
         product.REFER = product.REFER.replace(regex, '-') %>
         <div class="card">  
         <div class="card-image" id="product-card">
-          <img class= "photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalagoOnCh3/master/public/imgs/<%=product.image %>" alt="Este item não tem foto =/">
+          <img class= "photo" data-src="<%=product.image %>" alt="Este item não tem foto =/">
         </div>
         <div class ="card-text">
           <p><b>Referência: <%= product.REFER.trim() %></b></p>
@@ -75,7 +75,6 @@
           </section>
             
         </div>
-
       </div>
         <!-- End of If  -->
         <% } %>
@@ -92,7 +91,6 @@
       const modal = document.querySelector("#orders-modal")
       function back () {
           window.history.back()
-
       }
       function showModal () {
         modal.classList.add("show")

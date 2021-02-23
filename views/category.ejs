@@ -21,7 +21,7 @@
     <section class="container" id="products-list">
 <!-- First check if there are products for that category. -->
         <% for (product of products) { %>
-            <%  if (product.image.length > 0 ) { %>
+            <%  if (product.isAdded) { %>
             <div class="large-card" id="large-card">
                 <% if (product.image.length > 1) {%>
                 <div class="card-image"> 
@@ -29,11 +29,11 @@
                         <% for (image of product.image) { %>
                             <% if (image == product.image[0]) { %>
                                 <div class="item active">
-                                    <img class="photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalagoOnCh3/master/public/imgs/<%= image %>" alt="">
+                                    <img class="photo" data-src="<%= image %>" alt="">
                                 </div>
                             <% } else { %>
                                 <div class="item">
-                                    <img class= "photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalagoOnCh3/master/public/imgs/<%= image %>" alt="">
+                                    <img class= "photo" data-src="<%= image %>" alt="">
                                 </div>
                             <!--End of if -->
                             <% } %>          
@@ -47,7 +47,7 @@
                 <!-- End of Multiple images Product -->
                 <% } else { %>
                     <div class="card-image">
-                        <img class="photo" data-src="https://raw.githubusercontent.com/henriquechagasg/catalagoOnCh3/master/public/imgs/<%= product.image[0] %>" alt="Nao há Foto">
+                        <img class="photo" data-src="<%= product.image[0] %>" alt="Nao há Foto">
                     </div>
                     <!-- End of single image products -->
                 <%  } %>           
