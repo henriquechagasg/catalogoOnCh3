@@ -9,6 +9,12 @@ const multer = require('multer');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
 const showProductsDb = require('./models/productsToShow');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+const { isLoggedIn } = require('./middlewares/index');
+const catchAsync = require('./utils/catchAsync');
 
 const fs = require('fs')
 
@@ -33,6 +39,59 @@ app.use(methodOverride('_method'));
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
+
+const sessionConfig = {
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+    }
+
+}
+app.use(session(sessionConfig));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
+
+app.get('/login', async(req, res) => {
+    res.render('users/login');
+});
+
+app.post('/login', passport.authenticate('local', {failureFlash: true, failureRedirect: '/login' }), async(req, res) => {
+    const redirectUrl = req.session.returnTo || '/ch3Secret/update'
+    delete req.session.returnTo
+    res.redirect(redirectUrl)
+});
+
+
+
+// app.get('/register', async(req, res) => {
+//     res.render('users/register')
+// })
+
+// app.post('/register', async(req,res) => {
+//     try {  
+//         const { username, email, password } = req.body;
+//         const user = new User({ username, email });
+//         await User.register(user, password);
+//         res.redirect('/login')
+//     } catch (e){
+//         console.log(e)
+//         res.redirect('/register')
+//     }
+
 
 app.get('/', async (req, res) => {
     
@@ -149,11 +208,11 @@ app.get('/?q=:category', async(req, res) => {
     res.render('category', { products,  prices, filenames, category }) 
 });
 
-app.get('/ch3Secret/update', async(req, res) => {
+app.get('/ch3Secret/update', isLoggedIn, catchAsync(async(req, res) => {
     res.render('search');
-});
+}));
 
-app.get('/ch3Secret/update/:refer',  async(req, res) => {
+app.get('/ch3Secret/update/:refer', isLoggedIn,  async(req, res) => {
     const { refer } = req.params;
     const products = await dbOperations.getRefer(refer);
     let productToShow = await dbOperations.findProductShow();
@@ -169,7 +228,7 @@ app.get('/ch3Secret/update/:refer',  async(req, res) => {
 
 });
 
-app.post('/ch3Secret/update/:refer', upload.single('image'), async(req, res) => {
+app.post('/ch3Secret/update/:refer',isLoggedIn, upload.single('image'), async(req, res) => {
     const { refer } = req.params;
     const addProduct = new showProductsDb(req.body)
     addProduct.url = req.file.path;
@@ -179,7 +238,7 @@ app.post('/ch3Secret/update/:refer', upload.single('image'), async(req, res) => 
 
 });
 
-app.delete('/ch3Secret/update/:refer', async(req, res) => {
+app.delete('/ch3Secret/update/:refer',isLoggedIn, async(req, res) => {
     const { refer } = req.params;
     const productToDelete = await showProductsDb.findOne(req.body);
     await cloudinary.uploader.destroy(productToDelete.filename)
