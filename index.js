@@ -16,7 +16,6 @@ const User = require('./models/user');
 const { isLoggedIn } = require('./middlewares/index');
 const catchAsync = require('./utils/catchAsync');
 
-const fs = require('fs')
 
 const dbUrl = process.env.MONGO_URI 
 
@@ -95,7 +94,6 @@ app.post('/login', passport.authenticate('local', {failureFlash: true, failureRe
 
 app.get('/', async (req, res) => {
     
-    let filenames = fs.readdirSync('public/imgs')
     let products = await dbOperations.getAll()
     let prices = await dbOperations.getProductPrice()
     let categorys = await dbOperations.getCategorys()
@@ -122,12 +120,11 @@ app.get('/', async (req, res) => {
         })
     }
     
-    res.render('home', { products, prices, filenames, categorys })    
+    res.render('home', { products, prices, categorys })    
 })
 
 app.get('/?r=:refer', async(req, res) => {
     let prices = await dbOperations.getProductPrice()
-    let filenames = fs.readdirSync('public/imgs')
     const { refer } = req.params;
     const regex = /\//g;
     const products = await dbOperations.getRefer(refer);
@@ -179,7 +176,6 @@ app.get('/?r=:refer', async(req, res) => {
 
 app.get('/?q=:category', async(req, res) => {
     const { category } = req.params
-    let filenames = fs.readdirSync('public/imgs')
     products = await dbOperations.getAll(category.toUpperCase());
     let prices = await dbOperations.getProductPrice();
     let productToShow = await dbOperations.findProductShow();
@@ -205,7 +201,7 @@ app.get('/?q=:category', async(req, res) => {
         });
     }
 
-    res.render('category', { products,  prices, filenames, category }) 
+    res.render('category', { products,  prices, category }) 
 });
 
 app.get('/ch3Secret/update', isLoggedIn, catchAsync(async(req, res) => {
