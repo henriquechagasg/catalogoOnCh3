@@ -20,6 +20,7 @@ async function getAll(category){
 			await cursor.forEach(product => {
 				products.push(product)
 			})
+			client.close()
 			return products
 		}catch{
 			console.error
@@ -35,6 +36,7 @@ async function getAll(category){
 			await cursor.forEach(product => {
 				products.push(product)
 			})
+			client.close()
 			return products
 		}catch{
 			console.error
@@ -55,6 +57,7 @@ async function getAllRefers(){
 		await cursor.forEach(product => {
 			products.push(product)
 		})
+		client.close()
 		return products
 	}catch{
 		console.error
@@ -76,6 +79,7 @@ async function getRefer(refer){
 		await cursor.forEach(product => {
 			products.push(product)
 		})
+		client.close()
 		return products
 	}catch{
 		console.error
@@ -95,6 +99,7 @@ async function getProductPrice(){
 		await cursor.forEach(price => {
 			prices.push(price)
 		})
+		client.close()
 		return prices
 	}catch{
 		console.error
@@ -113,6 +118,7 @@ async function getOrders(){
 		await cursor.forEach(product => {
 			products.push(product)
 		})
+		client.close()
 		return products
 	}catch{
 		console.error
@@ -128,6 +134,7 @@ async function getCategorys(){
 		const db = client.db("productsDb")
 		const cursor = await db.collection("Refers").distinct("CADPROGDESCR")		
 		return cursor
+		client.close()
 	}catch{
 		console.error
 	}
@@ -141,6 +148,7 @@ async function removeProductShow(product){
 		await client.connect();
 		const db = client.db("productsDb")
 		await db.collection("showproducts").findOneAndDelete({"Product": product.Product});
+		client.close()
 	}catch{
 		console.error
 	}
@@ -159,6 +167,7 @@ async function findProductShow(){
 		await cursor.forEach(product => {
 			products.push(product)
 		})
+		client.close()
 		return products
 	}catch{
 		console.error
