@@ -10,7 +10,6 @@
 </head>
 <body>
 
-
     <!-- NAvbar -->
     <nav class="navbar">
       <div>
@@ -22,8 +21,7 @@
     </nav>
 
     <div class="message">
-        <p><b>Para pedir,</b> anote a <span>referência</span>, <span>cor</span> e <span>tamanho</span> desejado e nos envie no Whats.</p> 
-        <p>Se preferir nos envie um print.</p>
+        <p>Clique no ícone <span><i class="fas fa-cart-plus"></i></span>  no canto superior do produto para adicionar produtos ao carrinho</p> 
         <!-- <p>Nossas vendedoras ficarão felizes em te atender!</p> -->
       </h2>
     </div>
@@ -35,70 +33,143 @@
         <% if (product.image && ((product.P || 0)+(product.M || 0)+(product.G || 0)+(product.GG || 0)) > 0 ) { %>
           <% product.DESCR = product.DESCR.replace(regex, "-")
         product.REFER = product.REFER.replace(regex, '-') %>
-        <div class="card">  
-        <div class="card-image" id="product-card">
-          <img class= "photo" data-src="<%=product.image %>" alt="Este item não tem foto =/">
+        <div class="each-product">
+          <div class="card">  
+          <div class="card-image" id="product-card">
+            <img class= "photo" data-src="<%=product.image %>" alt="Este item não tem foto =/">
+          </div>
+          <div class ="card-text">
+            <p><b>Referência: <%= product.REFER.trim() %></b></p>
+            <p><%= product.DESCRI.trim()  %></p>
+            <p><b>Cor: <%= product.DESCR.trim() %></b></p>
+            <% if (product.pPrice) { %>
+              <b><p> P M G:  R$<%= product.pPrice  %> <% if (product.ggPrice) { %> / GG: R$<%= product.ggPrice  %> <% } %></p></b>
+            <% } else if (product.mPrice) { %>
+                <b><p>P M G: <%= product.mPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+            <% } else if (product.gPrice) { %>
+                <b><p>P M G: <%= product.gPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
+            <% } %>
+            <p>Tamanhos disponíveis:</p>
+            <section class="quantity-cards">
+              <% if (product.P > 0) { %> 
+              <div class="size-cards">
+                <b>P</b> 
+              </div>
+              <% } %>
+              <% if (product.M > 0) { %> 
+              <div class="size-cards">
+                <b>M</b> 
+              </div>
+              <% } %>
+              <% if (product.G > 0) { %> 
+              <div class="size-cards">
+                <b>G</b> 
+              </div>
+              <% } %>
+              <% if (product.GG > 0) { %> 
+              <div class="size-cards">
+                <b>GG</b> 
+              </div>
+              <% } %>  
+            </section>
+          </div>
+          <button class="buy-btn"><i class="fas fa-cart-plus"></i></button>
+          <!-- Product Infos for Add to Cart -->
+          <div style="display: none;">
+            <input id="productRefer" type="text" value="<%= product.REFER %>">
+            <input id="productDescri" type="text" value="<%= product.DESCRI %>">
+            <input id="productDescr" type="text" value="<%= product.DESCR %>">
+            <input id="productImage" type="text" value="<%= product.image %>">
+            <input id="productPrice" type="text" value="<%= product.pPrice || product.mPrice || product.gPrice%>">
+            <input id="productGGPrice" type="text" value="<%= product.ggPrice %>">
+          </div>
         </div>
-        <div class ="card-text">
-          <p><b>Referência: <%= product.REFER.trim() %></b></p>
-          <p><%= product.DESCRI.trim()  %></p>
-          <p><b>Cor: <%= product.DESCR.trim() %></b></p>
-          <% if (product.pPrice) { %>
-            <b><p> P M G:  R$<%= product.pPrice  %> <% if (product.ggPrice) { %> / GG: R$<%= product.ggPrice  %> <% } %></p></b>
-          <% } else if (product.mPrice) { %>
-              <b><p>P M G: <%= product.mPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
-          <% } else if (product.gPrice) { %>
-              <b><p>P M G: <%= product.gPrice  %> <% if (product.ggPrice) { %> / GG: <%= product.ggPrice  %> <% } %></p></b>
-          <% } %>
-          <p>Tamanhos disponíveis:</p>
-          <section class="quantity-cards">
-            <% if (product.P > 0) { %> 
-            <div class="size-cards">
-              <b>P</b> 
-            </div>
+        <div class="modal-container hide">
+          <div class="modal">
+              <div class="title">
+                  <p><%= product.DESCRI %> - <%= product.DESCR %> </p>
+              </div>
+              <form action="">
+                  <% if (product.P > 0) { %>
+                      <div class="size-order-line">
+                          <p>Tamanho: P</p>
+                          <div class="size-order-quantity">
+                            <p>Quantidade:</p>
+                            <div class="select-value">
+                            <input style="display: none;" type="text" name="P" value="0">
+                            <i class="fas fa-sort-up"></i>
+                            <i class="fas fa-sort-down"></i>
+                            <p id="P" class="order-counter">0</p>
+                          </div>
+                      </div>
+                      </div>
+                  <% } %>
+                  <% if (product.M > 0) { %>
+                    <div class="size-order-line">
+                        <p>Tamanho: M</p>
+                        <div class="size-order-quantity">
+                          <p>Quantidade:</p>
+                          <div class="select-value">
+                          <input style="display: none;" type="text" name="M" value="0">
+                          <i class="fas fa-sort-up"></i>
+                          <i class="fas fa-sort-down"></i>
+                          <p id="M" class="order-counter">0</p>
+                        </div>
+                    </div>
+                    </div>
+                <% } %>
+                <% if (product.G > 0) { %>
+                  <div class="size-order-line">
+                      <p>Tamanho: G</p>
+                      <div class="size-order-quantity">
+                        <p>Quantidade:</p>
+                        <div class="select-value">
+                        <input style="display: none;" type="text" name="G" value="0">
+                        <i class="fas fa-sort-up"></i>
+                        <i class="fas fa-sort-down"></i>
+                        <p id="G" class="order-counter">0</p>
+                      </div>
+                  </div>
+                  </div>
+              <% } %>
+              <% if (product.GG > 0) { %>
+                <div class="size-order-line">
+                    <p>Tamanho: GG</p>
+                    <div class="size-order-quantity">
+                      <p>Quantidade:</p>
+                      <div class="select-value">
+                      <input style="display: none;" type="text" name="GG" value="0">
+                      <i class="fas fa-sort-up"></i>
+                      <i class="fas fa-sort-down"></i>
+                      <p id="GG" class="order-counter">0</p>
+                    </div>
+                </div>
+                </div>
             <% } %>
-            <% if (product.M > 0) { %> 
-            <div class="size-cards">
-              <b>M</b> 
-            </div>
-            <% } %>
-            <% if (product.G > 0) { %> 
-            <div class="size-cards">
-              <b>G</b> 
-            </div>
-            <% } %>
-            <% if (product.GG > 0) { %> 
-            <div class="size-cards">
-              <b>GG</b> 
-            </div>
-            <% } %>  
-          </section>
-            
-        </div>
+                  
+                  <button class="close-btn"><i class="fas fa-times"></i></button>
+                  <button class="add-btn">Adicionar</button>                            
+              </form>
+          </div>
       </div>
+    </div>    
         <!-- End of If  -->
         <% } %>
       <!-- End of For -->
       <% } %>
     </div>
+    <button class="goToCart-btn"><i class="fas fa-shopping-cart"></i></button>
 
 
   <!-- Card para imagens: -->
     
  
     <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.0/dist/lazyload.min.js"></script>   
+    <script src="/js/refer.js"></script>
     <script>
-      const modal = document.querySelector("#orders-modal")
       function back () {
           window.history.back()
       }
-      function showModal () {
-        modal.classList.add("show")
-      }
-      function closeModal () {
-        modal.classList.remove("show")
-      }
     </script>
-    <script src="/js/home-refer.js"></script>
 </body>
 </html>

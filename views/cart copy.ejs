@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cart.css">
+    <title>Cart</title>
+</head>
+<body>
+
+    <div class="cart-container">
+        <div class="product-cards">
+
+        </div>
+        <div class="close-cart">
+            <div class="close-cart-container">
+            <h1>Finalizar Pedido</h1>
+            <div class="cart-totals">
+         
+            </div>
+            <form action="/cart" method="POST">
+                <input type="text" name="name" placeholder="Nome Completo" required>
+                <input type="text" name="phone" placeholder="Telefone" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input id="client-order" type="text" style="display: none;" name="clientOrder" >   
+                <button>Enviar Pedido</button>
+            </form>
+        </div>
+       
+    </div>
+
+    </div>
+     
+                
+        
+    <script src="https://kit.fontawesome.com/1c2c2462bf.js" crossorigin="anonymous"></script>
+    <script  src="/js/cart.js"></script>
+</body>
+</html>

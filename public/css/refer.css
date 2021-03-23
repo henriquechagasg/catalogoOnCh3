@@ -105,7 +105,6 @@
     flex-wrap: wrap;
     min-height: 100vh;
     position: relative;
-    z-index: 99;
     padding-top: 50px;
 }
 
@@ -117,7 +116,7 @@
     background: radial-gradient(circle, rgba(249,249,249,1) 0%, rgba(237,237,237,1) 100%);
     border-radius: 15px;
     overflow: hidden;
-    margin: 0 30px 30px 30px;
+    margin: 0 30px 50px 30px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     transition: transform 0.2s;
 }
@@ -200,57 +199,180 @@ img{
     border-bottom: 2px solid black;
 }
 
+.buy-btn{
+    position: absolute;
+    z-index: 1;
+    top: 5px;
+    right: 10px;
+    text-align: center;
+    height: 35px;
+    width: 35px;
+    font-size: 1.4em;
+    color: gray;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    cursor: pointer;
+}
 
-/* Pop Up */
+
+/* Modal */
 
 .modal-container{
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.3);
     position: fixed;
-    top: 0px;
-    left: 0px;
-    z-index: 100;
-    display: none;
-    justify-content: center;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, .5);
     align-items: center;
-}
-
-.modal-container.show{
-    display: flex;
+    justify-content: center;
 }
 
 .modal{
+    min-height: 200px;
+    width: 95%;
+    margin-left: 2.5%;
     background-color: white;
-    width: 60%;
-    min-width: 300px;
-    padding: 40px;
     border-radius: 20px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    font-size: larger;
+    position: relative;
+    padding-bottom: 70px;
+}
+
+.modal .title{
+    width: 80%;
+    margin-left: 10%;
+}
+
+.size-order-line{
+    width: 90%;
+    height: 100px;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    border-bottom: 2px solid black;
+}
+
+.size-order-line:first-child{
+    margin-top: 20px;
+    border-top: 2px solid black;
+}
+
+.size-order-line:last-child{
+    margin-bottom: 80px;
+}
+
+.size-order-line p:nth-of-type(2){
+    margin-right: 80px;
+}
+
+.size-order-quantity{
+    width: 150px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.select-value{
+    height: 100%;
+    width: 40px;
     position: relative;
 
 }
 
-.closeOrders-button{
+.order-counter{
+    height: 32px;
+    width: 40px;
     background-color: white;
-    border: none;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.2em;
+    border-radius: 10px;
     position: absolute;
-    top: 5px;
-    right: 13px;
+    top: 50%;
+    margin-top: -16px;
+
+}
+
+.fas.fa-sort-up{
+    font-size: 2em;
+    position: absolute;
+    top: 7px;
+    right: 50%;
+    margin-right: -9.6px;
+    color: #C8ADA5;
     cursor: pointer;
-    font-size: 1.4em;
 }
 
-.order-line{
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid black;
-    padding: 10px 0;
+.fas.fa-sort-down{
+    font-size: 2em;
+    position: absolute;
+    bottom: 7px;
+    right: 50%;
+    margin-right: -9.6px;
+    color: #C8ADA5;
+    cursor: pointer;
 }
 
-.ordered-quantitys{
-    display: flex;
+.close-btn{
+    position: absolute;
+    z-index: 102;
+    top: 8px;
+    right: 15px;
+    font-size: larger;
+    font-weight: bold;
+    cursor: pointer;
+    background: none;
+    border: none;
 }
-.ordered-quantitys p{
-    margin: 0 10px
+
+.add-btn{
+    position: absolute;
+    z-index: 102;
+    bottom: 15px;
+    right: 15px;
+    color: white;
+    background-color: #C8ADA5;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-btn:hover{
+    background-color: rgb(116, 216, 77);
+}
+
+.hide{
+    display: none;
+}
+
+/* Go To Cart Button */
+
+.goToCart-btn{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    color: white;
+    background-color: turquoise;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    border-radius: 50%;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 100;
+    display: none;
 }

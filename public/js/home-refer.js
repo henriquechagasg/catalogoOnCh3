@@ -6,6 +6,17 @@ const myLazyLoad = new LazyLoad({
     elements_selector: ".photo"
 })
 
+// Go to Cart
+const products = JSON.parse(localStorage.getItem('items'));
+const goToCartButton = document.querySelector('.goToCart-btn');
+if (products && products.length > 0){
+    goToCartButton.setAttribute('style', 'display: block;')
+    goToCartButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location = '/cart'
+    })
+}
+
 async function createCategorys() {
     categorysList = []
     productCard.forEach(async (product) => {
@@ -81,5 +92,4 @@ productCard.forEach((element) => {
             slides[index].classList.add("active")
     }
     }
-    
 })
