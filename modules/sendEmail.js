@@ -36,18 +36,14 @@ function mailMessage(products, client, number){
 
 function sendEmail(message, user){
     const remetente = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        service: "gmail",
-        port: "587",
-        secure: true,
+        service: "Hotmail",
         auth: {
             user: process.env.MAIL_REMET,
             pass: process.env.MAIL_REMET_PASS
         }
     })
-
     const emailToSend = {
-        from: "henriquechagasg@gmail.com",
+        from: process.env.MAIL_REMET,
         to: user,
         subject: "NOVO PEDIDO CATALAGO ON",
         text: message

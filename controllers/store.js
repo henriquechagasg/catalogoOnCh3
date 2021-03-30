@@ -1,4 +1,5 @@
 const dbOperations = require('../dboperations');
+const rawOrders = require('../models/rawOrders');
 const { mailMessage, sendEmail } = require('../modules/sendEmail');
 
 
@@ -121,7 +122,17 @@ module.exports.sendOrder = async (req, res) => {
     const { name, phone, email } = req.body;
     const products = JSON.parse(req.body.clientOrder);
     const message = await mailMessage(products, name, phone);
-    sendEmail(message, process.env.MAIL_DEST)
+    try{
+        sendEmail(message, process.env.MAIL_DEST)
+        const newOrder = new rawOrders({Client: req.body.name, 
+            Products: req.body.clientOrder, date: Date(), sended: true })
+        await newOrder.save()
+    }catch(error){
+        console.log(error)
+        const newOrder = new rawOrders({ Products: req.body.clientOrder, date: Date(), sended: false })
+        await newOrder.save()
+    }
+    
     res.redirect('/obrigado')
 }
 
