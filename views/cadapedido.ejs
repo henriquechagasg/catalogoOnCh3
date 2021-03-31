@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+</head>
+<body style="padding: 10px 30px;">
+    <div>
+        <h2><%= rawOrder.Client%></h2>
+        <h3><%= rawOrder.Phone %></h3>
+        <h3><%= rawOrder.Email %></h3> 
+    </div>
+    <div style="width: 700px;">
+        <% for (product of pedido) {%>
+            <div style="display: flex; align-items: center;justify-content: space-between; border-bottom: 1px solid black ;">
+                <p><%= product.productRefer %> - 
+                <%= product.productDescri.trim() %>, <%= product.productDescr.trim() %>:</p>
+                <div style="width: 50%; display: flex; align-items: center; justify-content: space-between;">
+                    <p><%=product.P%> <b>P</b></p>
+                    <p><%=product.M%> <b>M</b></p>
+                    <p><%=product.G%> <b>G</b></p>
+                    <p><%=product.GG%> <b>GG</b></p>
+                </div>
+            </div>
+        <% } %>
+           <div style="display: flex; align-items: center; width: 250px; justify-content: space-between;">
+                <p>Peças: <%= peças  %></p>
+                <p>Valor: <b><%= valor  %></b></p>
+           </div> 
+    </div>
+</body>
+</html>

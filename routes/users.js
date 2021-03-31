@@ -22,5 +22,11 @@ routes.route('/ch3Secret/update/:refer')
     .post(isLoggedIn, upload.single('image'), usersControllers.updateProduct)
     .delete(isLoggedIn, usersControllers.deleteProduct)
 
+routes.route('/pedidos')
+    .get(usersControllers.renderOrders)
+
+routes.route('/pedidos/:id')
+    .get(usersControllers.eachOrder)
+
 
 module.exports = routes

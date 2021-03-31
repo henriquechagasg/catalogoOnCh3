@@ -82,6 +82,8 @@ function getProductSum(product$){
     }
 }
 
+
+
 function addCartTotals(){
     const totalsModal = document.querySelector(".modal");
     const totalDePeças = totalsModal.querySelector("#totalDePeças");
@@ -385,4 +387,5 @@ async function app(){
     
 }
 
-app()   
+app()
+

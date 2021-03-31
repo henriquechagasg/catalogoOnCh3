@@ -1,5 +1,6 @@
-const nodemailer = require('nodemailer');
-
+// const nodemailer = require('nodemailer');
+const sgMail =  require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_KEY)
 
 function mailMessage(products, client, number){
     let finalMessageList = []
@@ -33,30 +34,48 @@ function mailMessage(products, client, number){
     return finalMessage
 }
 
-
 function sendEmail(message, user){
-    const remetente = nodemailer.createTransport({
-        service: "Hotmail",
-        auth: {
-            user: process.env.MAIL_REMET,
-            pass: process.env.MAIL_REMET_PASS
-        }
-    })
-    const emailToSend = {
-        from: process.env.MAIL_REMET,
+    console.log(process.env.SENDGRID_KEY)
+    const msg = {
         to: user,
-        subject: "NOVO PEDIDO CATALAGO ON",
-        text: message
-    }
+        from: process.env.MAIL_REMET,
+        subject: 'NOVO PEDIDO CATALOGO ON',
+        text: message,
+      }
 
-    remetente.sendMail(emailToSend, function(error) {
-        if (error) {
-            console.log(error)
-        } else {
-            console.log("Email Enviado Com Sucesso!")
-        }
-    })
+      sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
 }
+
+// function sendEmail(message, user){
+//     const remetente = nodemailer.createTransport({
+//         service: "Hotmail",
+//         auth: {
+//             user: process.env.MAIL_REMET,
+//             pass: process.env.MAIL_REMET_PASS
+//         }
+//     })
+//     const emailToSend = {
+//         from: process.env.MAIL_REMET,
+//         to: user,
+//         subject: "NOVO PEDIDO CATALAGO ON",
+//         text: message
+//     }
+
+//     remetente.sendMail(emailToSend, function(error) {
+//         if (error) {
+//             console.log(error)
+//         } else {
+//             console.log("Email Enviado Com Sucesso!")
+//         }
+//     })
+// }
 
 module.exports = {
     mailMessage,

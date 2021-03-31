@@ -1,6 +1,8 @@
-const fs = require("fs");
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config()
+const mongoose = require('mongoose');
+const rawOrders = require('./models/rawOrders');
+
 // Connection URL
 
 
@@ -174,7 +176,43 @@ async function findProductShow(){
 	}
 }
 
+async function pedidos(){
+	const uri = process.env.MONGO_URI
+	try {
+		const client = new MongoClient(uri);
+		// Connect to the MongoDB cluster
+		await client.connect();
+		const db = client.db("productsDb")
+		const cursor = db.collection("raworders").find({});
+		let products = []
+		await cursor.forEach(product => {
+			products.push(product)
+		})
+		client.close()
+		return products
+	}catch{
+		console.error
+	}
+}
 
+async function pedidoSeparado(id){
+	const uri = process.env.MONGO_URI
+	try {
+		const client = new MongoClient(uri);
+		// Connect to the MongoDB cluster
+		await client.connect();
+		const db = client.db("productsDb")
+		const cursor = db.collection("raworders").find({'orderID': id});
+		let products = []
+		await cursor.forEach(product => {
+			products.push(product)
+		})
+		client.close()
+		return products[0]
+	}catch{
+		console.error
+	}
+}
 
 module.exports = {
     getAll: getAll,
@@ -184,5 +222,7 @@ module.exports = {
 	getProductPrice: getProductPrice,
 	getCategorys: getCategorys,
 	removeProductShow: removeProductShow,
-	findProductShow: findProductShow
+	findProductShow: findProductShow,
+	pedidos: pedidos,
+	pedidoSeparado: pedidoSeparado
 }	

@@ -1,6 +1,8 @@
 const dbOperations = require('../dboperations');
 const rawOrders = require('../models/rawOrders');
 const { mailMessage, sendEmail } = require('../modules/sendEmail');
+const randomstring = require('randomstring');
+
 
 
 module.exports.renderHome = async (req, res) => {
@@ -122,14 +124,30 @@ module.exports.sendOrder = async (req, res) => {
     const { name, phone, email } = req.body;
     const products = JSON.parse(req.body.clientOrder);
     const message = await mailMessage(products, name, phone);
+    const orderID = randomstring.generate(7)
     try{
         sendEmail(message, process.env.MAIL_DEST)
-        const newOrder = new rawOrders({Client: req.body.name, 
-            Products: req.body.clientOrder, date: Date(), sended: true })
+        const newOrder = new rawOrders({
+            orderID, 
+            Client: req.body.name, 
+            Phone: req.body.phone,
+            Email: req.body.email,
+            Products: req.body.clientOrder, 
+            date: Date(), 
+            sended: true 
+        })
         await newOrder.save()
     }catch(error){
         console.log(error)
-        const newOrder = new rawOrders({ Products: req.body.clientOrder, date: Date(), sended: false })
+        const newOrder = new rawOrders({ 
+            orderID, 
+            Client: req.body.name, 
+            Phone: req.body.phone,
+            Email: req.body.email,
+            Products: req.body.clientOrder, 
+            date: Date(), 
+            sended: false
+        })
         await newOrder.save()
     }
     
