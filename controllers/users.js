@@ -123,7 +123,11 @@ module.exports.renderOrders = async (req, res) => {
 module.exports.eachOrder = async (req, res) => {
     const { id } = req.params;
     const rawOrder = await dbOperations.pedidoSeparado(id);
-    const pedido = JSON.parse(rawOrder.Products);
+    if (typeof(rawOrder.Products) === "string") {
+         const pedido = JSON.parse(rawOrder.Products);
+    } else {
+       const pedido = rawOrder.Products
+    }
     const [peças, valor] = getProductSum(pedido)
     res.render('cadapedido', {rawOrder, pedido, peças, valor})
     
